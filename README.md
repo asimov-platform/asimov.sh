@@ -1,6 +1,6 @@
 # ASIMOV.so
 
-A website for the ASIMOV platform built with Svelte and Tailwind CSS.
+A website for the ASIMOV Platform built with Svelte and Tailwind CSS.
 
 ## Development Setup
 
