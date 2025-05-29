@@ -1,178 +1,193 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @layer base {
-  :root {
-    /* hero section circle size */
-    --circleSize: 340px;
+	:root {
+		--circleSize: 340px;
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+		font-synthesis: none;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
 
-  html {
-    scroll-behavior: smooth;
-  }
+	html {
+		scroll-behavior: smooth;
+	}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--color-darker);
-    color: var(--color-text-primary);
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-  }
+	body {
+		font-family: 'Inter', sans-serif;
+		background-color: var(--color-darker);
+		color: var(--color-text-primary);
+		margin: 0;
+		padding: 0;
+		min-height: 100vh;
+	}
 
-  h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-  }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin: 0;
+	}
 
-  ::selection {
-    @apply bg-indigo-600 text-slate-50;
-  }
+	::selection {
+		@apply bg-indigo-600 text-slate-50;
+	}
 }
 
 @layer components {
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600;
-  }
+	.gradient-text {
+		@apply bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent;
+	}
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
 
-  /* Use consistent naming for text and background classes */
-  .dark {
-    background-color: var(--color-dark);
-  }
+	.dark {
+		background-color: var(--color-dark);
+	}
 
-  .darker {
-    background-color: var(--color-darker);
-  }
+	.darker {
+		background-color: var(--color-darker);
+	}
 
-  .bg-dark {
-    background-color: var(--color-dark);
-  }
+	.bg-dark {
+		background-color: var(--color-dark);
+	}
 
-  .bg-darker {
-    background-color: var(--color-darker);
-  }
+	.bg-darker {
+		background-color: var(--color-darker);
+	}
 
-  .text-primary {
-    color: var(--color-primary);
-  }
+	.text-primary {
+		color: var(--color-primary);
+	}
 
-  .text-secondary {
-    color: var(--color-secondary);
-  }
+	.text-secondary {
+		color: var(--color-secondary);
+	}
 
-  .text-text-primary {
-    color: var(--color-text-primary);
-  }
+	.text-text-primary {
+		color: var(--color-text-primary);
+	}
 
-  .text-text-secondary {
-    color: var(--color-text-secondary);
-  }
+	.text-text-secondary {
+		color: var(--color-text-secondary);
+	}
 
-  .bg-primary {
-    background-color: var(--color-primary);
-  }
+	.bg-primary {
+		background-color: var(--color-primary);
+	}
 
-  .bg-secondary {
-    background-color: var(--color-secondary);
-  }
+	.bg-secondary {
+		background-color: var(--color-secondary);
+	}
 
-  /* Animation classes */
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-in forwards;
-    opacity: 0;
-  }
+	.animate-fade-in {
+		animation: fadeIn 0.8s ease-in forwards;
+		opacity: 0;
+	}
 
-  .animate-slide-up {
-    animation: slideUp 0.8s ease-out forwards;
-    opacity: 0;
-    transform: translateY(20px);
-  }
+	.animate-slide-up {
+		animation: slideUp 0.8s ease-out forwards;
+		opacity: 0;
+		transform: translateY(20px);
+	}
 
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
+	@keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
 
-  @keyframes slideUp {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
+	@keyframes slideUp {
+		0% {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
 
-  /* Animation triggers */
-  [data-animate] {
-    opacity: 0;
-    transition: all 0.8s ease-out;
-  }
+	[data-animate] {
+		opacity: 0;
+		transition: all 0.8s ease-out;
+	}
 
-  [data-animate='fade'].in-view {
-    opacity: 1;
-  }
+	[data-animate='fade'].in-view {
+		opacity: 1;
+	}
 
-  [data-animate='slide-up'].in-view {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	[data-animate='slide-up'].in-view {
+		opacity: 1;
+		transform: translateY(0);
+	}
 
-  [data-animate='slide-up'] {
-    transform: translateY(20px);
-  }
+	[data-animate='slide-up'] {
+		transform: translateY(20px);
+	}
 
-  /* Stars background - can't easily do this with Tailwind */
-  .stars-bg {
-    @apply absolute inset-0 z-0;
-    background-image:
-      radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0)),
-      radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0)),
-      radial-gradient(3px 3px at 50px 160px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
-      radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0)),
-      radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0)),
-      radial-gradient(2px 2px at 160px 120px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0)),
-      radial-gradient(1px 1px at 180px 50px, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0)),
-      radial-gradient(2px 2px at 210px 220px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0)),
-      radial-gradient(3px 3px at 240px 110px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
-      radial-gradient(1px 1px at 270px 190px, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0));
-    background-repeat: repeat;
-    background-size: 700px 700px;
-    opacity: 0.6;
-  }
+	.stars-bg {
+		@apply absolute inset-0 z-0;
+		background-image:
+			radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0)),
+			radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0)),
+			radial-gradient(3px 3px at 50px 160px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
+			radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0)),
+			radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0)),
+			radial-gradient(2px 2px at 160px 120px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0)),
+			radial-gradient(1px 1px at 180px 50px, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0)),
+			radial-gradient(2px 2px at 210px 220px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0)),
+			radial-gradient(3px 3px at 240px 110px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
+			radial-gradient(1px 1px at 270px 190px, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0));
+		background-repeat: repeat;
+		background-size: 700px 700px;
+		opacity: 0.6;
+	}
 
-  .stars-twinkle {
-    @apply absolute inset-0 z-0;
-    background-image:
-      radial-gradient(3px 3px at 120px 90px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0)),
-      radial-gradient(2px 2px at 340px 170px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0)),
-      radial-gradient(4px 4px at 550px 260px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
-      radial-gradient(2px 2px at 790px 340px, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0));
-    background-repeat: repeat;
-    background-size: 800px 800px;
-    animation: twinkle 10s infinite;
-    opacity: 0;
-  }
+	.stars-twinkle {
+		@apply absolute inset-0 z-0;
+		background-image:
+			radial-gradient(3px 3px at 120px 90px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0)),
+			radial-gradient(2px 2px at 340px 170px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0)),
+			radial-gradient(4px 4px at 550px 260px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0)),
+			radial-gradient(2px 2px at 790px 340px, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0));
+		background-repeat: repeat;
+		background-size: 800px 800px;
+		animation: twinkle 10s infinite;
+		opacity: 0;
+	}
 
-  @keyframes twinkle {
-    0% { opacity: 0; }
-    50% { opacity: 0.5; }
-    100% { opacity: 0; }
-  }
+	@keyframes twinkle {
+		0% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 0.5;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
 }
 
-/* Base styling for the app container */
 #app {
-  width: 100%;
-  max-width: 100%;
-  min-height: 100vh;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
+	width: 100%;
+	max-width: 100%;
+	min-height: 100vh;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
 }
