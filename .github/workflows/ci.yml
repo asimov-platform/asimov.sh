@@ -6,8 +6,9 @@ on:
   pull_request:
     branches: ['main']
     types: [opened, synchronize, reopened]
+
 jobs:
   project-build-test:
-    uses: asimov-platform/.github/.github/workflows/npm-ci.yml@v1.0
+    uses: asimov-platform/.github/.github/workflows/npm-ci.yml@master
     with:
       skip-tests: true
