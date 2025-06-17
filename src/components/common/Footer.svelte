@@ -2,7 +2,7 @@
 	import TwitterLogo from 'phosphor-svelte/lib/TwitterLogo';
 	import GithubLogo from 'phosphor-svelte/lib/GithubLogo';
 	import LinkedinLogo from 'phosphor-svelte/lib/LinkedinLogo';
-	import asimovPlatformLogo from '../../assets/asimov-platform-logo.svg';
+	import Logo from './Logo.svelte';
 
 	const year = new Date().getFullYear();
 
@@ -67,11 +67,7 @@
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
 			<div class="lg:col-span-2">
 				<a href="#top" class="mb-4 flex items-center gap-2">
-					<img
-						src={asimovPlatformLogo}
-						alt="ASIMOV Logo"
-						class="flex w-20 items-center justify-center font-bold text-white"
-					/>
+					<Logo class="w-50 text-white" />
 				</a>
 				<p class="mb-6 max-w-md text-slate-300">
 					Build, deploy, and scale AI applications with unprecedented speed and flexibility on our
@@ -90,7 +86,6 @@
 				</div>
 			</div>
 
-			<!-- Links -->
 			{#each footerLinks as section (section.title)}
 				<div>
 					<h3 class="mb-4 text-sm font-semibold tracking-wider text-slate-50 uppercase">

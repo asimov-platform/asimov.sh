@@ -2,8 +2,10 @@
 	import NavBar from './components/common/NavBar.svelte';
 	import Footer from './components/common/Footer.svelte';
 	import Hero from './components/sections/Hero.svelte';
-	import Features from './components/sections/Features.svelte';
-	import About from './components/sections/About.svelte';
+	import NotJustAnAPI from './components/sections/NotJustAnAPI.svelte';
+	import ActorsSection from './components/sections/ActorsSection.svelte';
+	import LearnCodeExplore from './components/sections/LearnCodeExplore.svelte';
+	import WhyAsimov from './components/sections/WhyAsimov.svelte';
 	import { onMount } from 'svelte';
 
 	onMount(() => {
@@ -30,13 +32,15 @@
 	});
 </script>
 
-<div class="min-h-screen bg-slate-950">
+<div class="min-h-screen bg-white text-gray-900">
 	<NavBar />
 
 	<main>
 		<Hero />
-		<Features />
-		<About />
+		<NotJustAnAPI />
+		<ActorsSection />
+		<LearnCodeExplore />
+		<WhyAsimov />
 	</main>
 
 	<Footer />
@@ -49,7 +53,7 @@
 		min-height: 100vh;
 		display: flex;
 		flex-direction: column;
-		background-color: var(--color-slate-950);
+		background-color: white;
 		overflow-x: hidden;
 		font-family: 'Inter', sans-serif;
 	}

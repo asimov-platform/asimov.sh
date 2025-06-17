@@ -7,29 +7,35 @@
 	export let fullWidth = false;
 	export let onClick: (() => void) | null = null;
 
+	let className = '';
+	export { className as class };
+
 	const variantClasses = {
-		primary: 'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500',
-		secondary: 'bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-500',
+		primary:
+			'bg-orange-600 text-white hover:bg-orange-700 border border-orange-600 hover:border-orange-700 shadow-lg',
+		secondary:
+			'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-200 hover:border-gray-300',
 		outline:
-			'bg-transparent border-2 border-indigo-600 text-indigo-100 hover:bg-indigo-600/10 focus:ring-indigo-500',
-		text: 'bg-transparent text-indigo-600 hover:text-white focus:ring-indigo-500 shadow-none'
+			'bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400',
+		text: 'bg-transparent text-gray-600 hover:text-orange-600'
 	};
 
 	const sizeClasses = {
-		sm: 'text-sm px-3 py-1.5',
-		md: 'text-base px-4 py-2',
-		lg: 'text-lg px-6 py-3'
+		sm: 'text-sm px-4 py-2',
+		md: 'text-base px-6 py-3',
+		lg: 'text-lg px-8 py-4'
 	};
 
 	const baseClasses =
-		'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer';
+		'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer';
 
 	const classes = `
-    ${baseClasses}
-    ${variantClasses[variant]}
-    ${sizeClasses[size]}
-    ${fullWidth ? 'w-full' : ''}
-  `;
+        ${baseClasses}
+        ${variantClasses[variant]}
+        ${sizeClasses[size]}
+        ${fullWidth ? 'w-full' : ''}
+        ${className}
+    `;
 </script>
 
 {#if href}

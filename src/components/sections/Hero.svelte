@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '../common/Button.svelte';
-	import { Play, Cpu } from 'phosphor-svelte';
+	import { Play } from 'phosphor-svelte';
 	import { onMount } from 'svelte';
 
 	let heroSection: HTMLElement;
@@ -30,92 +30,83 @@
 
 <section
 	id="hero"
-	class="relative overflow-hidden pt-24 pb-20 md:pt-32 md:pb-28"
+	class="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-orange-50"
 	bind:this={heroSection}
 >
-	<div class="absolute inset-0 bg-slate-950"></div>
+	<div class="grid-overlay absolute inset-0"></div>
 
-	<div class="stars-bg"></div>
-	<div class="stars-twinkle"></div>
+	<div class="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-orange-500/10 blur-3xl"></div>
+	<div class="absolute right-1/4 bottom-1/4 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl"></div>
 
-	<div
-		class="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-transparent via-slate-950 to-slate-900"
-	></div>
+	<div class="relative z-10 container mx-auto px-4 pt-20">
+		<div class="mx-auto max-w-6xl text-center">
 
-	<div class="absolute top-1/2 left-1/2 z-[2] -translate-x-1/2 -translate-y-1/2 transform">
-		<div
-			class="h-[var(--circleSize)] w-[var(--circleSize)] rounded-full bg-indigo-600 opacity-10 blur-3xl"
-		></div>
-	</div>
-
-	<div class="relative z-10 container mx-auto px-4">
-		<div class="mx-auto max-w-4xl text-center">
 			<div
-				class="mb-6 inline-block rounded-full bg-indigo-600 px-3 py-1 text-sm font-medium text-white {isInView
+				class="mb-8 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/80 px-3 py-1 shadow-sm backdrop-blur-sm {isInView
 					? 'animate-fade-in'
-					: 'opacity-0'}"
-				style="animation-delay: 0.2s"
+					: ''}"
+				style="animation-delay: 0.1s"
 			>
-				Introducing ASIMOV Platform
+				<div class="h-2 w-2 animate-pulse rounded-full bg-green-500"></div>
+				<span class="text-sm text-gray-600">Platform • Now Available</span>
 			</div>
 
 			<h1
-				class="mb-6 text-4xl leading-tight font-bold text-slate-50 md:text-5xl lg:text-6xl {isInView
+				class="mb-8 text-6xl font-bold md:text-8xl lg:text-9xl {isInView ? 'animate-fade-in' : ''}"
+				style="animation-delay: 0.2s"
+			>
+				<span class="text-gray-900">Trusted</span><br />
+				<span class="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+					Knowledge
+				</span>
+			</h1>
+
+			<p
+				class="mx-auto mb-12 max-w-3xl text-xl leading-relaxed text-gray-600 md:text-2xl {isInView
 					? 'animate-fade-in'
 					: ''}"
 				style="animation-delay: 0.4s"
 			>
-				The Next Generation <span class="text-indigo-600">AI Infrastructure</span> Platform
-			</h1>
+				Build applications with verified, trustworthy data. Our platform provides powerful tools to
+				interact with, scrape, and process knowledge from the ASIMOV Protocol ecosystem.
+			</p>
 
-			<p
-				class="mx-auto mb-8 max-w-2xl text-lg text-slate-300 md:text-xl {isInView
+			<div
+				class="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row {isInView
 					? 'animate-fade-in'
 					: ''}"
 				style="animation-delay: 0.6s"
 			>
-				Build, deploy, and scale AI applications with unprecedented speed and flexibility. ASIMOV
-				provides the infrastructure for tomorrow's AI innovations.
-			</p>
-
-			<div
-				class="flex flex-col justify-center gap-4 sm:flex-row {isInView ? 'animate-fade-in' : ''}"
-				style="animation-delay: 0.8s"
-			>
-				<Button size="lg">Get Started Free</Button>
+				<Button size="lg" class="glow-orange">Start Building</Button>
 				<Button variant="outline" size="lg">
 					<Play size={20} weight="fill" class="mr-2" />
-					Watch Demo
+					Explore Protocol
 				</Button>
 			</div>
 
-			<div class="relative mt-10 {isInView ? 'animate-slide-up' : ''}" style="animation-delay: 1s">
-				<div
-					class="relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-xl"
-				>
-					<div class="absolute inset-0 -m-4 bg-indigo-600 opacity-5 blur-xl"></div>
-
-					<div class="relative p-1">
-						<div class="flex h-[400px] w-full items-center justify-center rounded-lg bg-slate-900">
-							<div class="text-center">
-								<div
-									class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-600 shadow-[0_0_15px_rgba(99,102,241,0.5)]"
-								>
-									<Cpu size={32} weight="fill" class="text-white" />
-								</div>
-								<p class="text-slate-300">ASIMOV Platform Interface</p>
-							</div>
-						</div>
-					</div>
+			<div
+				class="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-3 {isInView
+					? 'animate-fade-in'
+					: ''}"
+				style="animation-delay: 0.8s"
+			>
+				<div class="border-l-2 border-orange-500 pl-6">
+					<div class="mb-2 text-3xl font-bold text-gray-900">99.9%</div>
+					<div class="text-gray-600">Uptime SLA</div>
 				</div>
-
-				<div
-					class="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-purple-600 opacity-20 blur-xl"
-				></div>
-				<div
-					class="absolute -bottom-6 -left-6 h-16 w-16 rounded-full bg-indigo-600 opacity-20 blur-xl"
-				></div>
+				<div class="border-l-2 border-orange-500 pl-6">
+					<div class="mb-2 text-3xl font-bold text-gray-900">1M+</div>
+					<div class="text-gray-600">Verified Sources</div>
+				</div>
+				<div class="border-l-2 border-orange-500 pl-6">
+					<div class="mb-2 text-3xl font-bold text-gray-900">24/7</div>
+					<div class="text-gray-600">Global Access</div>
+				</div>
 			</div>
 		</div>
 	</div>
+
+	<div
+		class="absolute right-0 bottom-0 left-0 h-32 bg-gradient-to-t from-white to-transparent"
+	></div>
 </section>

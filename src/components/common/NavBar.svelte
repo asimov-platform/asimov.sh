@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import List from 'phosphor-svelte/lib/List';
 	import X from 'phosphor-svelte/lib/X';
-	import asimovPlatformLogo from '../../assets/asimov-platform-logo.svg';
+	import Logo from './Logo.svelte';
 
 	let isOpen = $state(false);
 	let isScrolled = $state(false);
@@ -24,39 +24,46 @@
 	});
 
 	const navItems = [
-		{ text: 'Features', href: '#features' },
-		{ text: 'About', href: '#about' }
+		{ text: 'Modules', href: '#modules' },
+		{ text: 'Platform', href: '#platform' },
+		{ text: 'Docs', href: '#docs' },
+		{ text: 'Blog', href: '#blog' }
 	];
 </script>
 
 <header
 	class="{isScrolled
-		? 'bg-slate-900/90 shadow-md backdrop-blur-md'
+		? 'border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur-md'
 		: 'bg-transparent'} fixed top-0 right-0 left-0 z-50 transition-all duration-300"
 >
-	<div class="container mx-auto flex items-center justify-between px-4 py-3">
+	<div class="container mx-auto flex h-20 items-center justify-between px-4">
 		<a href="#top" class="flex items-center gap-2">
-			<img
-				src={asimovPlatformLogo}
-				alt="ASIMOV Logo"
-				class="flex w-20 items-center justify-center font-bold text-white"
-			/>
+			<Logo class="w-50 text-gray-900" />
 		</a>
 
-		<nav class="hidden items-center space-x-6 md:flex">
+		<nav class="hidden items-center space-x-8 md:flex">
 			{#each navItems as item (item.text)}
-				<a href={item.href} class="text-slate-300 transition-colors hover:text-indigo-600"
-					>{item.text}</a
+				<a
+					href={item.href}
+					class="group relative text-gray-600 transition-colors hover:text-orange-600"
 				>
+					{item.text}
+					<div
+						class="absolute -bottom-1 left-0 h-px w-0 bg-orange-500 transition-all group-hover:w-full"
+					></div>
+				</a>
 			{/each}
 		</nav>
 
 		<div class="hidden items-center gap-3 md:flex">
-			<Button variant="outline" size="sm">Documentation</Button>
-			<Button variant="primary" size="sm">Get Started</Button>
+			<Button variant="outline" size="sm">Sign In</Button>
+			<Button variant="primary" size="sm">Start Building</Button>
 		</div>
 
-		<button class="text-slate-50 focus:outline-none md:hidden" onclick={toggleMenu}>
+		<button
+			class="text-gray-600 hover:text-gray-900 focus:outline-none md:hidden"
+			onclick={toggleMenu}
+		>
 			{#if isOpen}
 				<X size={24} weight="bold" />
 			{:else}
@@ -66,17 +73,21 @@
 	</div>
 
 	{#if isOpen}
-		<div class="border-t border-slate-800 bg-slate-900 md:hidden">
-			<div class="container mx-auto px-4 py-3">
-				<nav class="flex flex-col space-y-3">
+		<div class="border-t border-gray-200 bg-white/95 backdrop-blur-md md:hidden">
+			<div class="container mx-auto px-4 py-6">
+				<nav class="flex flex-col space-y-4">
 					{#each navItems as item (item.text)}
-						<a href={item.href} class="py-2 text-slate-300 transition-colors hover:text-indigo-600"
-							>{item.text}</a
+						<a
+							href={item.href}
+							class="border-b border-gray-200 py-2 text-gray-600 transition-colors last:border-b-0 hover:text-orange-600"
 						>
+							{item.text}
+						</a>
 					{/each}
-					<div class="flex flex-col gap-2 border-t border-slate-800 pt-3">
-						<Button variant="outline" fullWidth>Documentation</Button>
-						<Button variant="primary" fullWidth>Get Started</Button>
+
+					<div class="flex flex-col gap-3 pt-4">
+						<Button variant="outline" fullWidth>Sign In</Button>
+						<Button variant="primary" fullWidth>Start Building</Button>
 					</div>
 				</nav>
 			</div>
