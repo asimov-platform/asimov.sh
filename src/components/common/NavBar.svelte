@@ -26,7 +26,6 @@
 	const navItems = [
 		{ text: 'Modules', href: '#modules' },
 		{ text: 'Platform', href: '#why-asimov' },
-		{ text: 'Docs', href: '#docs' },
 		{ text: 'Blog', href: 'https://asimov.blog', target: '_blank', rel: 'noopener noreferrer' }
 	];
 </script>

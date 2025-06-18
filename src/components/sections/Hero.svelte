@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Button from '../common/Button.svelte';
-	// import { Play } from 'phosphor-svelte';
 	import { onMount } from 'svelte';
+	import Button from '../common/Button.svelte';
+	import { protocolUrl } from '../../lib/config';
 
 	let heroSection: HTMLElement;
 	let isInView = false;
@@ -80,11 +80,10 @@
 				<Button
 					variant="outline"
 					size="lg"
-					href="https://www.asimovprotocol.org"
+					href={protocolUrl}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<!-- <Play size={20} weight="fill" class="mr-2" /> -->
 					Explore Protocol
 				</Button>
 			</div>

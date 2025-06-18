@@ -1,63 +1,28 @@
 <script>
-	import TwitterLogo from 'phosphor-svelte/lib/TwitterLogo';
+	import XLogo from 'phosphor-svelte/lib/XLogo';
 	import GithubLogo from 'phosphor-svelte/lib/GithubLogo';
-	import LinkedinLogo from 'phosphor-svelte/lib/LinkedinLogo';
 	import Logo from './Logo.svelte';
+	import { twitterUrl, githubUrl } from '../../lib/config';
 
 	const year = new Date().getFullYear();
 
 	const footerLinks = [
 		{
 			title: 'Product',
-			links: [
-				{ text: 'Features', href: '#features' },
-				{ text: 'Use Cases', href: '#cases' },
-				{ text: 'Roadmap', href: '#roadmap' }
-			]
-		},
-		{
-			title: 'Resources',
-			links: [
-				{ text: 'Documentation', href: '#docs' },
-				{ text: 'API Reference', href: '#api' },
-				{ text: 'Blog', href: '#blog' },
-				{ text: 'Tutorials', href: '#tutorials' }
-			]
-		},
-		{
-			title: 'Company',
-			links: [
-				{ text: 'About Us', href: 'https://www.asimovprotocol.org/about', target: '_blank' },
-				{ text: 'Team', href: '#team' },
-				{ text: 'Contact', href: '#contact' },
-				{ text: 'Positron', href: '#positron' }
-			]
-		},
-		{
-			title: 'Legal',
-			links: [
-				{ text: 'Privacy Policy', href: '#privacy' },
-				{ text: 'Terms of Service', href: '#terms' },
-				{ text: 'Cookie Policy', href: '#cookies' }
-			]
+			links: [{ text: 'Modules', href: '#modules', target: undefined }]
 		}
 	];
 
 	const socialLinks = [
 		{
-			name: 'Twitter',
-			href: 'https://twitter.com',
-			icon: TwitterLogo
+			name: 'X (formally Twitter)',
+			href: twitterUrl,
+			icon: XLogo
 		},
 		{
 			name: 'GitHub',
-			href: 'https://github.com',
+			href: githubUrl,
 			icon: GithubLogo
-		},
-		{
-			name: 'LinkedIn',
-			href: 'https://linkedin.com',
-			icon: LinkedinLogo
 		}
 	];
 </script>
@@ -96,7 +61,8 @@
 							<li>
 								<a
 									href={link.href}
-									target={link.target}
+									target={link.target || undefined}
+									rel={link.target ? 'noopener noreferrer' : undefined}
 									class="text-slate-300 transition-colors hover:text-indigo-600">{link.text}</a
 								>
 							</li>
@@ -110,11 +76,6 @@
 			class="mt-12 flex flex-col items-center justify-between border-t border-slate-800 pt-8 md:flex-row"
 		>
 			<p class="text-sm text-slate-300">© {year} ASIMOV Platform. All rights reserved.</p>
-			<div class="mt-4 md:mt-0">
-				<p class="text-sm text-slate-300">
-					Designed with <span class="text-red-500">♥</span> for developers
-				</p>
-			</div>
 		</div>
 	</div>
 </footer>

@@ -5,6 +5,7 @@
 	import ModuleCard from '../common/ModuleCard.svelte';
 	import ModuleCardSkeleton from '../common/ModuleCardSkeleton.svelte';
 	import { fetchTopModules, type Module } from '../../lib/github';
+	import { modulesUrl } from '../../lib/config';
 
 	let actorsSection: HTMLElement;
 	let modules: Module[] = [];
@@ -84,7 +85,7 @@
 		<div class="mt-12 text-center" data-animate="fade">
 			<p class="mb-4 text-gray-600">Modules automatically fetched from our GitHub organization</p>
 			<a
-				href="https://github.com/asimov-modules"
+				href={modulesUrl}
 				target="_blank"
 				rel="noopener noreferrer"
 				class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-6 py-3 text-white transition-colors hover:bg-gray-800"
