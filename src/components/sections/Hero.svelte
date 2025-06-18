@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '../common/Button.svelte';
-	import { Play } from 'phosphor-svelte';
+	// import { Play } from 'phosphor-svelte';
 	import { onMount } from 'svelte';
 
 	let heroSection: HTMLElement;
@@ -40,7 +40,6 @@
 
 	<div class="relative z-10 container mx-auto px-4 pt-20">
 		<div class="mx-auto max-w-6xl text-center">
-
 			<div
 				class="mb-8 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/80 px-3 py-1 shadow-sm backdrop-blur-sm {isInView
 					? 'animate-fade-in'
@@ -77,9 +76,15 @@
 					: ''}"
 				style="animation-delay: 0.6s"
 			>
-				<Button size="lg" class="glow-orange">Start Building</Button>
-				<Button variant="outline" size="lg">
-					<Play size={20} weight="fill" class="mr-2" />
+				<Button size="lg" class="glow-orange" href="#learn-code-explore">Start Building</Button>
+				<Button
+					variant="outline"
+					size="lg"
+					href="https://www.asimovprotocol.org"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<!-- <Play size={20} weight="fill" class="mr-2" /> -->
 					Explore Protocol
 				</Button>
 			</div>

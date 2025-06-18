@@ -45,7 +45,7 @@
 </script>
 
 <section
-	id="actors"
+	id="modules"
 	class="relative border-t border-gray-200 bg-white py-20"
 	bind:this={actorsSection}
 >

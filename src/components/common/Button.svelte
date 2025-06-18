@@ -2,6 +2,8 @@
 	export let variant: 'primary' | 'secondary' | 'outline' | 'text' = 'primary';
 	export let size: 'sm' | 'md' | 'lg' = 'md';
 	export let href: string | null = null;
+	export let rel: string | null = null;
+	export let target: string | null = null;
 	export let type: 'button' | 'submit' | 'reset' = 'button';
 	export let disabled = false;
 	export let fullWidth = false;
@@ -39,7 +41,7 @@
 </script>
 
 {#if href}
-	<a {href} class={classes} role="button" aria-disabled={disabled}>
+	<a {href} {target} {rel} class={classes} role="button" aria-disabled={disabled}>
 		<slot />
 	</a>
 {:else}

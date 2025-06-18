@@ -109,13 +109,15 @@
 			</p>
 			<div class="flex flex-col justify-center gap-4 sm:flex-row">
 				<a
-					href="#top"
+					href="#learn-code-explore"
 					class="rounded-lg bg-orange-600 px-8 py-3 font-medium text-white transition-colors hover:bg-orange-700"
 				>
 					Start building with trusted data
 				</a>
 				<a
-					href="#top"
+					href="https://www.asimovprotocol.org"
+					target="_blank"
+					rel="noopener noreferrer"
 					class="rounded-lg border border-gray-600 px-8 py-3 font-medium text-gray-300 transition-colors hover:bg-gray-800"
 				>
 					Explore the protocol

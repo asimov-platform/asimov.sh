@@ -25,9 +25,9 @@
 
 	const navItems = [
 		{ text: 'Modules', href: '#modules' },
-		{ text: 'Platform', href: '#platform' },
+		{ text: 'Platform', href: '#why-asimov' },
 		{ text: 'Docs', href: '#docs' },
-		{ text: 'Blog', href: '#blog' }
+		{ text: 'Blog', href: 'https://asimov.blog', target: '_blank', rel: 'noopener noreferrer' }
 	];
 </script>
 
@@ -46,6 +46,8 @@
 				<a
 					href={item.href}
 					class="group relative text-gray-600 transition-colors hover:text-orange-600"
+					target={item.target || undefined}
+					rel={item.rel || undefined}
 				>
 					{item.text}
 					<div
@@ -56,8 +58,7 @@
 		</nav>
 
 		<div class="hidden items-center gap-3 md:flex">
-			<Button variant="outline" size="sm">Sign In</Button>
-			<Button variant="primary" size="sm">Start Building</Button>
+			<Button href="#learn-code-explore" variant="primary" fullWidth>Start Building</Button>
 		</div>
 
 		<button
@@ -80,14 +81,15 @@
 						<a
 							href={item.href}
 							class="border-b border-gray-200 py-2 text-gray-600 transition-colors last:border-b-0 hover:text-orange-600"
+							target={item.target || undefined}
+							rel={item.rel || undefined}
 						>
 							{item.text}
 						</a>
 					{/each}
 
 					<div class="flex flex-col gap-3 pt-4">
-						<Button variant="outline" fullWidth>Sign In</Button>
-						<Button variant="primary" fullWidth>Start Building</Button>
+						<Button href="#learn-code-explore" variant="primary" fullWidth>Start Building</Button>
 					</div>
 				</nav>
 			</div>
