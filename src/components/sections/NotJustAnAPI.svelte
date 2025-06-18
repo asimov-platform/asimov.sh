@@ -170,19 +170,3 @@ for profile in profiles.lazy_load():
 		</div>
 	</div>
 </section>
-
-<style>
-	.pulse-scale {
-		animation: pulseScale 2s ease-in-out infinite;
-	}
-
-	@keyframes pulseScale {
-		0%,
-		100% {
-			transform: scale(0.8);
-		}
-		50% {
-			transform: scale(1);
-		}
-	}
-</style>

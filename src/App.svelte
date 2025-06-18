@@ -45,27 +45,3 @@
 
 	<Footer />
 </div>
-
-<style>
-	:global(body) {
-		margin: 0;
-		padding: 0;
-		min-height: 100vh;
-		display: flex;
-		flex-direction: column;
-		background-color: white;
-		overflow-x: hidden;
-		font-family: 'Inter', sans-serif;
-	}
-
-	:global(#app) {
-		width: 100%;
-		max-width: 100%;
-		min-height: 100vh;
-		padding: 0;
-		margin: 0;
-		text-align: left;
-		display: flex;
-		flex-direction: column;
-	}
-</style>

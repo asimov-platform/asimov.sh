@@ -1,9 +1,10 @@
 <script lang="ts">
-	import Button from './Button.svelte';
 	import { onMount } from 'svelte';
 	import List from 'phosphor-svelte/lib/List';
 	import X from 'phosphor-svelte/lib/X';
+	import Button from './Button.svelte';
 	import Logo from './Logo.svelte';
+	import { blogUrl } from '../../lib/config';
 
 	let isOpen = $state(false);
 	let isScrolled = $state(false);
@@ -26,7 +27,7 @@
 	const navItems = [
 		{ text: 'Modules', href: '#modules' },
 		{ text: 'Platform', href: '#why-asimov' },
-		{ text: 'Blog', href: 'https://asimov.blog', target: '_blank', rel: 'noopener noreferrer' }
+		{ text: 'Blog', href: blogUrl, target: '_blank', rel: 'noopener noreferrer' }
 	];
 </script>
 
