@@ -9,9 +9,6 @@
 	export let fullWidth = false;
 	export let onClick: (() => void) | null = null;
 
-	let className = '';
-	export { className as class };
-
 	const variantClasses = {
 		primary:
 			'bg-orange-600 text-white hover:bg-orange-700 border border-orange-600 hover:border-orange-700 shadow-lg',
@@ -36,16 +33,15 @@
         ${variantClasses[variant]}
         ${sizeClasses[size]}
         ${fullWidth ? 'w-full' : ''}
-        ${className}
     `;
 </script>
 
 {#if href}
-	<a {href} {target} {rel} class={classes} role="button" aria-disabled={disabled}>
+	<a {href} {target} {rel} {...$$restProps} class={classes} role="button" aria-disabled={disabled}>
 		<slot />
 	</a>
 {:else}
-	<button {type} {disabled} class={classes} on:click={onClick}>
+	<button {type} {disabled} {...$$restProps} class={classes} on:click={onClick}>
 		<slot />
 	</button>
 {/if}
