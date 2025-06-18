@@ -77,12 +77,22 @@ async function fetchManifest(
 		}
 
 		const manifestData = await manifestResponse.json();
-		const manifestContent = atob(manifestData.content);
 
-		// Parse YAML properly
-		const manifest = yamlLoad(manifestContent) as AsimovManifest;
+		let manifestContent: string;
+		try {
+			manifestContent = atob(manifestData.content);
+		} catch (decodeErr) {
+			console.warn(`Failed to decode base64 for ${repoName}:`, decodeErr);
+			return null;
+		}
 
-		return manifest;
+		try {
+			const manifest = yamlLoad(manifestContent) as AsimovManifest;
+			return manifest;
+		} catch (yamlErr) {
+			console.warn(`Failed to parse YAML for ${repoName}:`, yamlErr);
+			return null;
+		}
 	} catch (err) {
 		console.warn(`Failed to fetch module.yaml for ${repoName}:`, err);
 		return null;
