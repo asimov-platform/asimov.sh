@@ -4,7 +4,7 @@
 	import Hero from './components/sections/Hero.svelte';
 	import NotJustAnAPI from './components/sections/NotJustAnAPI.svelte';
 	import ModulesSection from './components/sections/ModulesSection.svelte';
-	import LearnCodeExplore from './components/sections/LearnCodeExplore.svelte';
+	import LearnAndCode from './components/sections/LearnAndCode.svelte';
 	import WhyAsimov from './components/sections/WhyAsimov.svelte';
 	import { onMount } from 'svelte';
 
@@ -39,7 +39,7 @@
 		<Hero />
 		<NotJustAnAPI />
 		<ModulesSection />
-		<LearnCodeExplore />
+		<LearnAndCode />
 		<WhyAsimov />
 	</main>
 
