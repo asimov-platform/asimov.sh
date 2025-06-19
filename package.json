@@ -34,6 +34,7 @@
 		"vite": "^6.3.5"
 	},
 	"dependencies": {
+		"@tanstack/svelte-query": "^5.80.10",
 		"js-yaml": "^4.1.0"
 	}
 }

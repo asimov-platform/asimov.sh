@@ -27,6 +27,18 @@ export interface AsimovManifest {
 	handles?: Record<string, unknown>;
 }
 
+export interface RateLimitInfo {
+	remaining: number;
+	limit: number;
+	resetTime: string;
+	percentage: number;
+}
+
+export interface GitHubStats {
+	stars: number;
+	followers: number;
+}
+
 const SKIP_REPOS = [
 	'.github',
 	'asimov-template-module',
@@ -62,14 +74,97 @@ export const fallbackModules: Module[] = [
 	}
 ];
 
-async function fetchManifest(
-	repoName: string,
-	headers: HeadersInit
-): Promise<AsimovManifest | null> {
+function logRateLimit(response: Response): RateLimitInfo | null {
+	const remaining = response.headers.get('X-RateLimit-Remaining');
+	const resetTime = response.headers.get('X-RateLimit-Reset');
+	const limit = response.headers.get('X-RateLimit-Limit');
+
+	if (remaining && resetTime && limit) {
+		const resetDate = new Date(parseInt(resetTime) * 1000);
+		const status = parseInt(remaining) < 10 ? '🔴' : parseInt(remaining) < 30 ? '🟡' : '🟢';
+		const percentage = Math.round((parseInt(remaining) / parseInt(limit)) * 100);
+
+		const rateLimitInfo: RateLimitInfo = {
+			remaining: parseInt(remaining),
+			limit: parseInt(limit),
+			resetTime: resetDate.toLocaleTimeString(),
+			percentage
+		};
+
+		console.log(
+			`${status} GitHub API Rate Limit: ${remaining}/${limit} remaining (${percentage}%), resets at ${resetDate.toLocaleTimeString()}`
+		);
+
+		return rateLimitInfo;
+	}
+
+	return null;
+}
+
+async function fetchRepoStars(owner: string, repo: string): Promise<number> {
+	try {
+		const headers: HeadersInit = {
+			Accept: 'application/vnd.github.v3+json',
+			'User-Agent': 'asimov-platform-website'
+		};
+
+		const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
+
+		logRateLimit(response);
+
+		if (!response.ok) {
+			throw new Error(`GitHub API error: ${response.status}`);
+		}
+
+		const data = await response.json();
+		return data.stargazers_count || 0;
+	} catch (err) {
+		console.error(`Failed to fetch stars for ${owner}/${repo}:`, err);
+		return 0;
+	}
+}
+
+async function fetchOrgFollowers(org: string): Promise<number> {
+	try {
+		const headers: HeadersInit = {
+			Accept: 'application/vnd.github.v3+json',
+			'User-Agent': 'asimov-platform-website'
+		};
+
+		const response = await fetch(`https://api.github.com/orgs/${org}`, { headers });
+
+		logRateLimit(response);
+
+		if (!response.ok) {
+			throw new Error(`GitHub API error: ${response.status}`);
+		}
+
+		const data = await response.json();
+		return data.followers || 0;
+	} catch (err) {
+		console.error(`Failed to fetch followers for ${org}:`, err);
+		return 0;
+	}
+}
+
+export async function fetchGitHubStats(): Promise<GitHubStats> {
+	try {
+		const [stars, followers] = await Promise.all([
+			fetchRepoStars('asimov-platform', 'asimov.rs'),
+			fetchOrgFollowers('asimov-platform')
+		]);
+
+		return { stars, followers };
+	} catch (err) {
+		console.error('Failed to fetch GitHub stats:', err);
+		return { stars: 0, followers: 0 };
+	}
+}
+
+async function fetchManifest(repoName: string): Promise<AsimovManifest | null> {
 	try {
 		const manifestResponse = await fetch(
-			`https://api.github.com/repos/asimov-modules/${repoName}/contents/.asimov/module.yaml`,
-			{ headers }
+			`https://api.github.com/repos/asimov-modules/${repoName}/contents/.asimov/module.yaml`
 		);
 
 		if (!manifestResponse.ok) {
@@ -99,20 +194,19 @@ async function fetchManifest(
 	}
 }
 
-export async function fetchTopModules(): Promise<Module[]> {
+export async function fetchTopModulesQuery(): Promise<Module[]> {
 	try {
 		const headers: HeadersInit = {
 			Accept: 'application/vnd.github.v3+json',
 			'User-Agent': 'asimov-platform-website'
 		};
 
-		if (import.meta.env.VITE_GIT_SECRET) {
-			headers['Authorization'] = `token ${import.meta.env.VITE_GIT_SECRET}`;
-		}
-
+		// Note: No auth token for security reasons in client-side app
 		const response = await fetch('https://api.github.com/orgs/asimov-modules/repos?per_page=100', {
 			headers
 		});
+
+		logRateLimit(response);
 
 		if (!response.ok) {
 			throw new Error(`GitHub API error: ${response.status}`);
@@ -127,7 +221,7 @@ export async function fetchTopModules(): Promise<Module[]> {
 
 		const modules = await Promise.all(
 			filteredAndSortedRepos.map(async (repo) => {
-				const manifest = await fetchManifest(repo.name, headers);
+				const manifest = await fetchManifest(repo.name);
 
 				return {
 					name: manifest?.label || manifest?.name || repo.name,
@@ -143,6 +237,14 @@ export async function fetchTopModules(): Promise<Module[]> {
 		return modules;
 	} catch (err) {
 		console.error('Failed to fetch GitHub repositories:', err);
+		throw err;
+	}
+}
+
+export async function fetchTopModules(): Promise<Module[]> {
+	try {
+		return await fetchTopModulesQuery();
+	} catch {
 		return fallbackModules;
 	}
 }
