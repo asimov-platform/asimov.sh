@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { QueryClientProvider } from '@tanstack/svelte-query';
+	import { queryClient } from './lib/queryClient';
 	import NavBar from './components/common/NavBar.svelte';
 	import Footer from './components/common/Footer.svelte';
 	import Hero from './components/sections/Hero.svelte';
@@ -32,16 +34,18 @@
 	});
 </script>
 
-<div class="min-h-screen bg-white text-gray-900">
-	<NavBar />
+<QueryClientProvider client={queryClient}>
+	<div class="min-h-screen bg-white text-gray-900">
+		<NavBar />
 
-	<main>
-		<Hero />
-		<NotJustAnAPI />
-		<ModulesSection />
-		<LearnAndCode />
-		<WhyAsimov />
-	</main>
+		<main>
+			<Hero />
+			<NotJustAnAPI />
+			<ModulesSection />
+			<LearnAndCode />
+			<WhyAsimov />
+		</main>
 
-	<Footer />
-</div>
+		<Footer />
+	</div>
+</QueryClientProvider>

@@ -76,7 +76,7 @@
 					: ''}"
 				style="animation-delay: 0.6s"
 			>
-				<Button size="lg" class="glow-orange" href="#learn-code-explore">Start Building</Button>
+				<Button size="lg" class="glow-orange" href="#learn-code">Start Building</Button>
 				<Button
 					variant="outline"
 					size="lg"
