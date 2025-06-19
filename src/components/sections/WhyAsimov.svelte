@@ -110,7 +110,7 @@
 			</p>
 			<div class="flex flex-col justify-center gap-4 sm:flex-row">
 				<a
-					href="#learn-code-explore"
+					href="#learn-code"
 					class="rounded-lg bg-orange-600 px-8 py-3 font-medium text-white transition-colors hover:bg-orange-700"
 				>
 					Start building with trusted data

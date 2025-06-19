@@ -58,7 +58,7 @@
 		</nav>
 
 		<div class="hidden items-center gap-3 md:flex">
-			<Button href="#learn-code-explore" variant="primary" fullWidth>Start Building</Button>
+			<Button href="#learn-code" variant="primary" fullWidth>Start Building</Button>
 		</div>
 
 		<button
@@ -89,7 +89,7 @@
 					{/each}
 
 					<div class="flex flex-col gap-3 pt-4">
-						<Button href="#learn-code-explore" variant="primary" fullWidth>Start Building</Button>
+						<Button href="#learn-code" variant="primary" fullWidth>Start Building</Button>
 					</div>
 				</nav>
 			</div>
