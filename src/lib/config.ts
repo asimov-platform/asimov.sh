@@ -1,4 +1,3 @@
-export const blogUrl = 'https://asimov.blog';
 export const twitterUrl = 'https://x.com/ASIMOV_Platform';
 export const githubUrl = 'https://github.com/asimov-platform';
 export const modulesUrl = 'https://github.com/asimov-modules';
@@ -29,7 +28,6 @@ export const footerLinks: {
 		title: 'Resources',
 		links: [
 			{ text: 'ASIMOV Protocol', href: protocolUrl, target: '_blank' },
-			{ text: 'Blog', href: blogUrl, target: '_blank' },
 			{ text: 'GitHub', href: githubUrl, target: '_blank' }
 		]
 	}

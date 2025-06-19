@@ -6,7 +6,6 @@
 	import Star from 'phosphor-svelte/lib/Star';
 	import Users from 'phosphor-svelte/lib/Users';
 	import Logo from './Logo.svelte';
-	import { blogUrl } from '../../lib/config';
 	import { fetchGitHubStats, formatStars } from '../../lib/github';
 
 	let isOpen = $state(false);
@@ -37,8 +36,7 @@
 
 	const navItems = [
 		{ text: 'Modules', href: '#modules' },
-		{ text: 'Platform', href: '#why-asimov' },
-		{ text: 'Blog', href: blogUrl, target: '_blank', rel: 'noopener noreferrer' }
+		{ text: 'Platform', href: '#why-asimov' }
 	];
 </script>
 
@@ -57,8 +55,6 @@
 				<a
 					href={item.href}
 					class="group relative text-gray-600 transition-colors hover:text-orange-600"
-					target={item.target || undefined}
-					rel={item.rel || undefined}
 				>
 					{item.text}
 					<div
@@ -126,8 +122,6 @@
 						<a
 							href={item.href}
 							class="border-b border-gray-200 py-2 text-gray-600 transition-colors last:border-b-0 hover:text-orange-600"
-							target={item.target || undefined}
-							rel={item.rel || undefined}
 						>
 							{item.text}
 						</a>
