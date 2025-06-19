@@ -1,4 +1,4 @@
-# ASIMOV.so
+# ASIMOV.sh
 
 A website for the ASIMOV Platform built with Svelte and Tailwind CSS.
 
@@ -7,8 +7,8 @@ A website for the ASIMOV Platform built with Svelte and Tailwind CSS.
 1. Clone the repository.
 
 ```bash
-git clone https://github.com/asimov-platform/asimov.so.git
-cd asimov.so
+git clone https://github.com/asimov-platform/asimov.sh.git
+cd asimov.sh
 ```
 
 2. Install dependencies:
