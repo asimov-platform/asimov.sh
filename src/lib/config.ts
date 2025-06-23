@@ -3,7 +3,8 @@ export const githubUrl = 'https://github.com/asimov-platform';
 export const modulesUrl = 'https://github.com/asimov-modules';
 export const protocolUrl = 'https://www.asimovprotocol.org';
 export const asimovCLIUrl = 'https://github.com/asimov-platform/asimov-module-cli';
-export const docsUrl = 'https://asimov-specs.github.io/';
+export const modulesSpecsUrl = 'https://asimov-specs.github.io';
+export const modulesSpecsGithubUrl = 'https://github.com/asimov-specs';
 
 export const footerLinks: {
 	title: string;
@@ -22,7 +23,7 @@ export const footerLinks: {
 		links: [
 			{ text: 'CLI Tool', href: asimovCLIUrl, target: '_blank' },
 			{ text: 'Browse Modules', href: modulesUrl, target: '_blank' },
-			{ text: 'Documentation', href: docsUrl, target: '_blank' }
+			{ text: 'Documentation', href: modulesSpecsUrl, target: '_blank' }
 		]
 	},
 	{

@@ -36,7 +36,8 @@
 
 	const navItems = [
 		{ text: 'Modules', href: '#modules' },
-		{ text: 'Platform', href: '#why-asimov' }
+		{ text: 'Platform', href: '#why-asimov' },
+		{ text: 'Docs', href: '#specifications' }
 	];
 </script>
 

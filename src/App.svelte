@@ -9,6 +9,7 @@
 	import LearnAndCode from './components/sections/LearnAndCode.svelte';
 	import WhyAsimov from './components/sections/WhyAsimov.svelte';
 	import { onMount } from 'svelte';
+	import AsimovSpecifications from './components/sections/AsimovSpecifications.svelte';
 
 	onMount(() => {
 		const observer = new IntersectionObserver(
@@ -44,6 +45,7 @@
 			<ModulesSection />
 			<LearnAndCode />
 			<WhyAsimov />
+			<AsimovSpecifications />
 		</main>
 
 		<Footer />
