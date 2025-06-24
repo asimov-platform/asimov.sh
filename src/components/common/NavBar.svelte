@@ -5,8 +5,10 @@
 	import X from 'phosphor-svelte/lib/X';
 	import Star from 'phosphor-svelte/lib/Star';
 	import Users from 'phosphor-svelte/lib/Users';
+	import Download from 'phosphor-svelte/lib/Download';
 	import Logo from './Logo.svelte';
 	import { fetchGitHubStats, formatStars } from '../../lib/github';
+	import { fetchDownloadsStats, formatDownloads } from '../../lib/downloads';
 
 	let isOpen = $state(false);
 	let isScrolled = $state(false);
@@ -21,6 +23,14 @@
 		staleTime: 10 * 60 * 1000, // 10 minutes
 		gcTime: 20 * 60 * 1000, // 20 minutes
 		retry: 1
+	});
+
+	const downloadsQuery = createQuery({
+		queryKey: ['downloads-stats'],
+		queryFn: fetchDownloadsStats,
+		staleTime: 30 * 60 * 1000, // 30 minutes
+		gcTime: 60 * 60 * 1000, // 1 hour
+		retry: 2
 	});
 
 	onMount(() => {
@@ -66,7 +76,7 @@
 		</nav>
 
 		<div class="hidden items-center gap-4 md:flex">
-			{#if $githubStatsQuery.data}
+			{#if $githubStatsQuery.data && $downloadsQuery.data}
 				<div class="flex items-center gap-3">
 					{#if $githubStatsQuery.data.topRepo}
 						<a
@@ -105,9 +115,20 @@
 							{formatStars($githubStatsQuery.data.followers)}
 						</span>
 					</a>
+					<div
+						class="group flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white/80 px-3 py-1.5 text-sm"
+					>
+						<Download size={14} class="text-gray-500" />
+						<span class="font-medium text-gray-700">
+							{formatDownloads($downloadsQuery.data.totalDownloads)}
+						</span>
+					</div>
 				</div>
-			{:else if $githubStatsQuery.isLoading}
+			{:else if $githubStatsQuery.isLoading || $downloadsQuery.isLoading}
 				<div class="flex items-center gap-3">
+					<div class="animate-pulse rounded-lg bg-gray-200 px-3 py-1.5">
+						<div class="h-4 w-8 rounded bg-gray-300"></div>
+					</div>
 					<div class="animate-pulse rounded-lg bg-gray-200 px-3 py-1.5">
 						<div class="h-4 w-8 rounded bg-gray-300"></div>
 					</div>
@@ -143,7 +164,7 @@
 						</a>
 					{/each}
 
-					{#if $githubStatsQuery.data}
+					{#if $githubStatsQuery.data && $downloadsQuery.data}
 						<div class="flex items-center justify-center gap-4 py-2">
 							{#if $githubStatsQuery.data.topRepo}
 								<a
@@ -178,10 +199,18 @@
 								class="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm"
 							>
 								<Users size={14} class="text-gray-500" />
-								<span class="font-medium text-gray-700">
+								<span>
 									{formatStars($githubStatsQuery.data.followers)}
 								</span>
 							</a>
+							<div
+								class="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm"
+							>
+								<Download size={14} class="text-gray-500" />
+								<span class="font-medium text-gray-700">
+									{formatDownloads($downloadsQuery.data.totalDownloads)}
+								</span>
+							</div>
 						</div>
 					{/if}
 				</nav>

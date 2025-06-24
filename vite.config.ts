@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
+import { ZUPLO_API_URL } from './src/lib/config';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -8,7 +9,7 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/api': {
-				target: 'https://asimov-platform-main-4cffcce.d2.zuplo.dev',
+				target: ZUPLO_API_URL,
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, ''),
 				secure: true

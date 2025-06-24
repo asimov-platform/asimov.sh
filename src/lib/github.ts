@@ -1,35 +1,6 @@
 import { load as yamlLoad } from 'js-yaml';
 import { ZUPLO_API_URL } from './config';
-
-export interface Module {
-	name: string;
-	description: string;
-	stars: number;
-	url: string;
-	language: string;
-	topics: string[];
-}
-
-export interface AsimovManifest {
-	name?: string;
-	label?: string;
-	summary?: string;
-	links?: string[];
-	provides?: Record<string, unknown>;
-	handles?: Record<string, unknown>;
-}
-
-export interface GitHubStats {
-	stars: number;
-	followers: number;
-	topRepo?: {
-		name: string;
-		description: string;
-		stars: number;
-		url: string;
-		language: string;
-	};
-}
+import type { AsimovManifest, GitHubRepo, GitHubStats, Module, RateLimitInfo } from './types';
 
 interface ApiMetricsResponse {
 	fetchedAt: string;
