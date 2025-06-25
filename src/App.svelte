@@ -8,8 +8,9 @@
 	import ModulesSection from './components/sections/ModulesSection.svelte';
 	import LearnAndCode from './components/sections/LearnAndCode.svelte';
 	import WhyAsimov from './components/sections/WhyAsimov.svelte';
-	import { onMount } from 'svelte';
+	import DailyDownloads from './components/sections/DailyDownloads.svelte';
 	import AsimovSpecifications from './components/sections/AsimovSpecifications.svelte';
+	import { onMount } from 'svelte';
 
 	onMount(() => {
 		const observer = new IntersectionObserver(
@@ -45,6 +46,7 @@
 			<ModulesSection />
 			<LearnAndCode />
 			<WhyAsimov />
+			<DailyDownloads />
 			<AsimovSpecifications />
 		</main>
 
