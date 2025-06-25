@@ -1,3 +1,5 @@
+export const ZUPLO_API_URL = 'https://asimov-platform-main-4cffcce.d2.zuplo.dev';
+
 export const twitterUrl = 'https://x.com/ASIMOV_Platform';
 export const githubUrl = 'https://github.com/asimov-platform';
 export const modulesUrl = 'https://github.com/asimov-modules';

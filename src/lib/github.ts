@@ -1,4 +1,5 @@
 import { load as yamlLoad } from 'js-yaml';
+import { ZUPLO_API_URL } from './config';
 
 export interface Module {
 	name: string;
@@ -73,22 +74,25 @@ export const fallbackModules: Module[] = [
 	}
 ];
 
-async function fetchWithFallback<T>(url: string, fallbackData: T): Promise<T> {
+async function fetchWithFallback<T>(endpoint: string, fallbackData: T): Promise<T> {
 	try {
-		const response = await fetch(url);
+		const isDev = import.meta.env.DEV;
+		const apiUrl = isDev ? `/api/${endpoint}` : `${ZUPLO_API_URL}/${endpoint}`;
+
+		const response = await fetch(apiUrl);
 		if (!response.ok) {
 			throw new Error(`API error: ${response.status}`);
 		}
 		return await response.json();
 	} catch (err) {
-		console.error(`Failed to fetch from ${url}:`, err);
+		console.error(`Failed to fetch from ${endpoint}:`, err);
 		return fallbackData;
 	}
 }
 
 export async function fetchGitHubStats(): Promise<GitHubStats> {
 	try {
-		const data = await fetchWithFallback<ApiMetricsResponse>('/api/metrics/asimov-platform', {
+		const data = await fetchWithFallback<ApiMetricsResponse>('metrics/asimov-platform', {
 			fetchedAt: '',
 			orgFollowers: 0,
 			totalStars: 0,
@@ -128,7 +132,7 @@ function parseManifest(manifestYAML?: string): AsimovManifest | null {
 }
 
 export async function fetchTopModulesQuery(): Promise<Module[]> {
-	const data = await fetchWithFallback<ApiMetricsResponse>('/api/metrics/asimov-modules', {
+	const data = await fetchWithFallback<ApiMetricsResponse>('metrics/asimov-modules', {
 		fetchedAt: '',
 		orgFollowers: 0,
 		totalStars: 0,
