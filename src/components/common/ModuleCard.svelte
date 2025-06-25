@@ -2,7 +2,8 @@
 	import Package from 'phosphor-svelte/lib/Package';
 	import ArrowRight from 'phosphor-svelte/lib/ArrowRight';
 	import Star from 'phosphor-svelte/lib/Star';
-	import { formatStars, getLanguageColor, type Module } from '../../lib/github';
+	import { formatStars, getLanguageColor } from '../../lib/github';
+	import type { Module } from '../../lib/types';
 
 	export let module: Module;
 	export let index: number = 0;

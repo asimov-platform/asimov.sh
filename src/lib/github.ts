@@ -1,22 +1,6 @@
 import { load as yamlLoad } from 'js-yaml';
 import { ZUPLO_API_URL } from './config';
-import type { AsimovManifest, GitHubRepo, GitHubStats, Module, RateLimitInfo } from './types';
-
-interface ApiMetricsResponse {
-	fetchedAt: string;
-	orgFollowers: number;
-	totalStars: number;
-	repositories: {
-		name: string;
-		description: string | null;
-		stars: number;
-		starsPretty: string;
-		url: string;
-		language: string;
-		topics: string[];
-		manifestYAML?: string;
-	}[];
-}
+import type { AsimovManifest, ApiMetricsResponse, GitHubStats, Module } from './types';
 
 export const fallbackModules: Module[] = [
 	{

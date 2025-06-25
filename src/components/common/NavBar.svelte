@@ -52,8 +52,8 @@
 </script>
 
 <header
-	class="{isScrolled
-		? 'border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur-md'
+	class="{isScrolled || isOpen
+		? 'bg-white/95 shadow-sm backdrop-blur-md'
 		: 'bg-transparent'} fixed top-0 right-0 left-0 z-50 transition-all duration-300"
 >
 	<div class="container mx-auto flex h-20 items-center justify-between px-4">

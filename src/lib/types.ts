@@ -59,3 +59,19 @@ export interface GitHubStats {
 		language: string;
 	};
 }
+
+export interface ApiMetricsResponse {
+	fetchedAt: string;
+	orgFollowers: number;
+	totalStars: number;
+	repositories: {
+		name: string;
+		description: string | null;
+		stars: number;
+		starsPretty: string;
+		url: string;
+		language: string;
+		topics: string[];
+		manifestYAML?: string;
+	}[];
+}
