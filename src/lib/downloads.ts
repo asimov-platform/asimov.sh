@@ -4,7 +4,7 @@ import type { DownloadData, DownloadsStats } from './types';
 export async function fetchDownloadsStats(): Promise<DownloadsStats> {
 	try {
 		const isDev = import.meta.env.DEV;
-		const apiUrl = isDev ? '/api/downloads' : ZUPLO_API_URL;
+		const apiUrl = isDev ? '/api/downloads' : `${ZUPLO_API_URL}/downloads`;
 
 		const response = await fetch(apiUrl, {
 			method: 'GET',
