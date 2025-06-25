@@ -17,7 +17,6 @@
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@tailwindcss/vite": "^4.1.7",
 		"@tsconfig/svelte": "^5.0.4",
-		"@types/d3-shape": "^3.1.7",
 		"@types/js-yaml": "^4.0.9",
 		"@types/node": "^24.0.4",
 		"eslint": "^9.27.0",

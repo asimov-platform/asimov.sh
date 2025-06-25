@@ -63,16 +63,18 @@ export async function fetchDailyDownloadsStats(): Promise<DailyDownloadData[]> {
 				headers: {
 					'Content-Type': 'application/json'
 				}
-			}).then((response) => {
-				if (response.ok) {
-					return response.json();
-				} else {
-					throw new Error(`Failed to fetch data for ${date}: ${response.status}`);
-				}
-			}).catch((dateError) => {
-				console.warn(`Failed to fetch data for ${date}:`, dateError);
-				return [];
-			});
+			})
+				.then((response) => {
+					if (response.ok) {
+						return response.json();
+					} else {
+						throw new Error(`Failed to fetch data for ${date}: ${response.status}`);
+					}
+				})
+				.catch((dateError) => {
+					console.warn(`Failed to fetch data for ${date}:`, dateError);
+					return [];
+				});
 		});
 
 		const results = await Promise.allSettled(fetchPromises);
