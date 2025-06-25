@@ -53,27 +53,34 @@ export async function fetchDailyDownloadsStats(): Promise<DailyDownloadData[]> {
 		const allData: DownloadData[] = [];
 
 		// Fetch data for each date
-		for (const date of dates) {
+		const fetchPromises = dates.map((date) => {
 			const apiUrl = isDev
 				? `/api/downloads?collected_at=eq.${date}`
 				: `${ZUPLO_API_URL}/downloads?collected_at=eq.${date}`;
 
-			try {
-				const response = await fetch(apiUrl, {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				});
-
-				if (response.ok) {
-					const dayData: DownloadData[] = await response.json();
-					allData.push(...dayData);
+			return fetch(apiUrl, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
 				}
-			} catch (dateError) {
+			}).then((response) => {
+				if (response.ok) {
+					return response.json();
+				} else {
+					throw new Error(`Failed to fetch data for ${date}: ${response.status}`);
+				}
+			}).catch((dateError) => {
 				console.warn(`Failed to fetch data for ${date}:`, dateError);
+				return [];
+			});
+		});
+
+		const results = await Promise.allSettled(fetchPromises);
+		results.forEach((result) => {
+			if (result.status === 'fulfilled') {
+				allData.push(...result.value);
 			}
-		}
+		});
 
 		if (allData.length === 0) {
 			console.log('No daily data available, returning empty array');
