@@ -68,17 +68,32 @@
 		<div class="hidden items-center gap-4 md:flex">
 			{#if $githubStatsQuery.data}
 				<div class="flex items-center gap-3">
-					<a
-						href="https://github.com/asimov-platform/asimov.rs"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="group flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white/80 px-3 py-1.5 text-sm transition-all hover:border-orange-200 hover:bg-orange-50"
-					>
-						<Star size={14} class="text-gray-500 group-hover:text-orange-600" />
-						<span class="font-medium text-gray-700 group-hover:text-orange-700">
-							{formatStars($githubStatsQuery.data.stars)}
-						</span>
-					</a>
+					{#if $githubStatsQuery.data.topRepo}
+						<a
+							href={$githubStatsQuery.data.topRepo.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="group flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white/80 px-3 py-1.5 text-sm transition-all hover:border-orange-200 hover:bg-orange-50"
+							title={$githubStatsQuery.data.topRepo.name}
+						>
+							<Star size={14} class="text-gray-500 group-hover:text-orange-600" />
+							<span class="font-medium text-gray-700 group-hover:text-orange-700">
+								{formatStars($githubStatsQuery.data.topRepo.stars)}
+							</span>
+						</a>
+					{:else}
+						<a
+							href="https://github.com/asimov-platform/asimov.rs"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="group flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white/80 px-3 py-1.5 text-sm transition-all hover:border-orange-200 hover:bg-orange-50"
+						>
+							<Star size={14} class="text-gray-500 group-hover:text-orange-600" />
+							<span class="font-medium text-gray-700 group-hover:text-orange-700">
+								{formatStars($githubStatsQuery.data.stars)}
+							</span>
+						</a>
+					{/if}
 					<a
 						href="https://github.com/asimov-platform"
 						target="_blank"
@@ -130,17 +145,32 @@
 
 					{#if $githubStatsQuery.data}
 						<div class="flex items-center justify-center gap-4 py-2">
-							<a
-								href="https://github.com/asimov-platform/asimov.rs"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm"
-							>
-								<Star size={14} class="text-gray-500" />
-								<span class="font-medium text-gray-700">
-									{formatStars($githubStatsQuery.data.stars)}
-								</span>
-							</a>
+							{#if $githubStatsQuery.data.topRepo}
+								<a
+									href={$githubStatsQuery.data.topRepo.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm"
+									title={$githubStatsQuery.data.topRepo.name}
+								>
+									<Star size={14} class="text-gray-500" />
+									<span class="font-medium text-gray-700">
+										{formatStars($githubStatsQuery.data.topRepo.stars)}
+									</span>
+								</a>
+							{:else}
+								<a
+									href="https://github.com/asimov-platform/asimov.rs"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm"
+								>
+									<Star size={14} class="text-gray-500" />
+									<span class="font-medium text-gray-700">
+										{formatStars($githubStatsQuery.data.stars)}
+									</span>
+								</a>
+							{/if}
 							<a
 								href="https://github.com/asimov-platform"
 								target="_blank"

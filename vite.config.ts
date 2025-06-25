@@ -4,5 +4,15 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://vite.dev/config/
 export default defineConfig({
-	plugins: [svelte(), tailwindcss()]
+	plugins: [svelte(), tailwindcss()],
+	server: {
+		proxy: {
+			'/api': {
+				target: 'https://asimov-platform-main-4cffcce.d2.zuplo.dev',
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, ''),
+				secure: true
+			}
+		}
+	}
 });

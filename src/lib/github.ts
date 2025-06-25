@@ -1,14 +1,5 @@
 import { load as yamlLoad } from 'js-yaml';
 
-export interface GitHubRepo {
-	name: string;
-	description: string;
-	stargazers_count: number;
-	html_url: string;
-	language: string;
-	topics: string[];
-}
-
 export interface Module {
 	name: string;
 	description: string;
@@ -27,218 +18,140 @@ export interface AsimovManifest {
 	handles?: Record<string, unknown>;
 }
 
-export interface RateLimitInfo {
-	remaining: number;
-	limit: number;
-	resetTime: string;
-	percentage: number;
-}
-
 export interface GitHubStats {
 	stars: number;
 	followers: number;
+	topRepo?: {
+		name: string;
+		description: string;
+		stars: number;
+		url: string;
+		language: string;
+	};
 }
 
-const SKIP_REPOS = [
-	'.github',
-	'asimov-template-module',
-	'asimov-modules.rb',
-	'asimov-modules.py',
-	'asimov-goodreads-module'
-];
+interface ApiMetricsResponse {
+	fetchedAt: string;
+	orgFollowers: number;
+	totalStars: number;
+	repositories: {
+		name: string;
+		description: string | null;
+		stars: number;
+		starsPretty: string;
+		url: string;
+		language: string;
+		topics: string[];
+		manifestYAML?: string;
+	}[];
+}
 
 export const fallbackModules: Module[] = [
 	{
-		name: 'langchain-asimov',
-		description: 'LangChain integration for ASIMOV platform with enhanced AI capabilities',
-		stars: 1200,
-		url: 'https://github.com/asimov-modules/langchain-asimov',
-		language: 'Python',
-		topics: ['langchain', 'ai', 'integration']
+		name: 'Apify',
+		description: 'Data import powered by the Apify web automation platform.',
+		stars: 9,
+		url: 'https://github.com/asimov-modules/asimov-apify-module',
+		language: 'Rust',
+		topics: ['asimov-module']
 	},
 	{
-		name: 'asimov-core',
-		description: 'Core infrastructure tools for building AI applications',
-		stars: 856,
-		url: 'https://github.com/asimov-modules/asimov-core',
-		language: 'Python',
-		topics: ['core', 'infrastructure', 'ai']
+		name: 'Bright Data',
+		description: 'Data import powered by the Bright Data web data platform.',
+		stars: 7,
+		url: 'https://github.com/asimov-modules/asimov-brightdata-module',
+		language: 'Rust',
+		topics: ['asimov-module']
 	},
 	{
-		name: 'asimov-deploy',
-		description: 'Deployment and scaling utilities for AI models',
-		stars: 642,
-		url: 'https://github.com/asimov-modules/asimov-deploy',
-		language: 'TypeScript',
-		topics: ['deployment', 'scaling', 'devops']
+		name: 'SerpApi',
+		description: 'Data import powered by the SerpApi search data platform.',
+		stars: 7,
+		url: 'https://github.com/asimov-modules/asimov-serpapi-module',
+		language: 'Rust',
+		topics: ['asimov-module']
 	}
 ];
 
-function logRateLimit(response: Response): RateLimitInfo | null {
-	const remaining = response.headers.get('X-RateLimit-Remaining');
-	const resetTime = response.headers.get('X-RateLimit-Reset');
-	const limit = response.headers.get('X-RateLimit-Limit');
-
-	if (remaining && resetTime && limit) {
-		const resetDate = new Date(parseInt(resetTime) * 1000);
-		const status = parseInt(remaining) < 10 ? '🔴' : parseInt(remaining) < 30 ? '🟡' : '🟢';
-		const percentage = Math.round((parseInt(remaining) / parseInt(limit)) * 100);
-
-		const rateLimitInfo: RateLimitInfo = {
-			remaining: parseInt(remaining),
-			limit: parseInt(limit),
-			resetTime: resetDate.toLocaleTimeString(),
-			percentage
-		};
-
-		console.log(
-			`${status} GitHub API Rate Limit: ${remaining}/${limit} remaining (${percentage}%), resets at ${resetDate.toLocaleTimeString()}`
-		);
-
-		return rateLimitInfo;
-	}
-
-	return null;
-}
-
-async function fetchRepoStars(owner: string, repo: string): Promise<number> {
+async function fetchWithFallback<T>(url: string, fallbackData: T): Promise<T> {
 	try {
-		const headers: HeadersInit = {
-			Accept: 'application/vnd.github.v3+json',
-			'User-Agent': 'asimov-platform-website'
-		};
-
-		const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
-
-		logRateLimit(response);
-
+		const response = await fetch(url);
 		if (!response.ok) {
-			throw new Error(`GitHub API error: ${response.status}`);
+			throw new Error(`API error: ${response.status}`);
 		}
-
-		const data = await response.json();
-		return data.stargazers_count || 0;
+		return await response.json();
 	} catch (err) {
-		console.error(`Failed to fetch stars for ${owner}/${repo}:`, err);
-		return 0;
-	}
-}
-
-async function fetchOrgFollowers(org: string): Promise<number> {
-	try {
-		const headers: HeadersInit = {
-			Accept: 'application/vnd.github.v3+json',
-			'User-Agent': 'asimov-platform-website'
-		};
-
-		const response = await fetch(`https://api.github.com/orgs/${org}`, { headers });
-
-		logRateLimit(response);
-
-		if (!response.ok) {
-			throw new Error(`GitHub API error: ${response.status}`);
-		}
-
-		const data = await response.json();
-		return data.followers || 0;
-	} catch (err) {
-		console.error(`Failed to fetch followers for ${org}:`, err);
-		return 0;
+		console.error(`Failed to fetch from ${url}:`, err);
+		return fallbackData;
 	}
 }
 
 export async function fetchGitHubStats(): Promise<GitHubStats> {
 	try {
-		const [stars, followers] = await Promise.all([
-			fetchRepoStars('asimov-platform', 'asimov.rs'),
-			fetchOrgFollowers('asimov-platform')
-		]);
+		const data = await fetchWithFallback<ApiMetricsResponse>('/api/metrics/asimov-platform', {
+			fetchedAt: '',
+			orgFollowers: 0,
+			totalStars: 0,
+			repositories: []
+		});
 
-		return { stars, followers };
+		const topRepo = data.repositories.sort((a, b) => b.stars - a.stars)[0];
+
+		return {
+			stars: data.totalStars,
+			followers: data.orgFollowers,
+			topRepo: topRepo
+				? {
+						name: topRepo.name,
+						description: topRepo.description || 'No description available',
+						stars: topRepo.stars,
+						url: topRepo.url,
+						language: topRepo.language || 'Unknown'
+					}
+				: undefined
+		};
 	} catch (err) {
 		console.error('Failed to fetch GitHub stats:', err);
 		return { stars: 0, followers: 0 };
 	}
 }
 
-async function fetchManifest(repoName: string): Promise<AsimovManifest | null> {
+function parseManifest(manifestYAML?: string): AsimovManifest | null {
+	if (!manifestYAML) return null;
+
 	try {
-		const manifestResponse = await fetch(
-			`https://api.github.com/repos/asimov-modules/${repoName}/contents/.asimov/module.yaml`
-		);
-
-		if (!manifestResponse.ok) {
-			return null;
-		}
-
-		const manifestData = await manifestResponse.json();
-
-		let manifestContent: string;
-		try {
-			manifestContent = atob(manifestData.content);
-		} catch (decodeErr) {
-			console.warn(`Failed to decode base64 for ${repoName}:`, decodeErr);
-			return null;
-		}
-
-		try {
-			const manifest = yamlLoad(manifestContent) as AsimovManifest;
-			return manifest;
-		} catch (yamlErr) {
-			console.warn(`Failed to parse YAML for ${repoName}:`, yamlErr);
-			return null;
-		}
+		return yamlLoad(manifestYAML) as AsimovManifest;
 	} catch (err) {
-		console.warn(`Failed to fetch module.yaml for ${repoName}:`, err);
+		console.warn('Failed to parse manifest YAML:', err);
 		return null;
 	}
 }
 
 export async function fetchTopModulesQuery(): Promise<Module[]> {
-	try {
-		const headers: HeadersInit = {
-			Accept: 'application/vnd.github.v3+json',
-			'User-Agent': 'asimov-platform-website'
-		};
+	const data = await fetchWithFallback<ApiMetricsResponse>('/api/metrics/asimov-modules', {
+		fetchedAt: '',
+		orgFollowers: 0,
+		totalStars: 0,
+		repositories: []
+	});
 
-		// Note: No auth token for security reasons in client-side app
-		const response = await fetch('https://api.github.com/orgs/asimov-modules/repos?per_page=100', {
-			headers
+	const modules = data.repositories
+		.sort((a, b) => b.stars - a.stars)
+		.slice(0, 3)
+		.map((module) => {
+			const manifest = parseManifest(module.manifestYAML);
+
+			return {
+				name: manifest?.label || manifest?.name || module.name,
+				description: manifest?.summary || module.description || 'No description available',
+				stars: module.stars,
+				url: module.url,
+				language: module.language || 'Unknown',
+				topics: module.topics || []
+			};
 		});
 
-		logRateLimit(response);
-
-		if (!response.ok) {
-			throw new Error(`GitHub API error: ${response.status}`);
-		}
-
-		const repos: GitHubRepo[] = await response.json();
-
-		const filteredAndSortedRepos = repos
-			.filter((repo) => !SKIP_REPOS.includes(repo.name.toLowerCase()))
-			.sort((a, b) => b.stargazers_count - a.stargazers_count)
-			.slice(0, 3);
-
-		const modules = await Promise.all(
-			filteredAndSortedRepos.map(async (repo) => {
-				const manifest = await fetchManifest(repo.name);
-
-				return {
-					name: manifest?.label || manifest?.name || repo.name,
-					description: manifest?.summary || repo.description || 'No description available',
-					stars: repo.stargazers_count,
-					url: repo.html_url,
-					language: repo.language || 'Unknown',
-					topics: repo.topics || []
-				};
-			})
-		);
-
-		return modules;
-	} catch (err) {
-		console.error('Failed to fetch GitHub repositories:', err);
-		throw err;
-	}
+	return modules;
 }
 
 export async function fetchTopModules(): Promise<Module[]> {
@@ -263,6 +176,10 @@ export function getLanguageColor(language: string): string {
 		JavaScript: 'bg-yellow-100 text-yellow-800',
 		Go: 'bg-cyan-100 text-cyan-800',
 		Rust: 'bg-orange-100 text-orange-800',
+		Ruby: 'bg-red-100 text-red-800',
+		PowerShell: 'bg-purple-100 text-purple-800',
+		Nix: 'bg-green-100 text-green-800',
+		Svelte: 'bg-pink-100 text-pink-800',
 		Unknown: 'bg-gray-100 text-gray-800'
 	};
 	return colors[language] || 'bg-gray-100 text-gray-800';
