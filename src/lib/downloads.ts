@@ -132,40 +132,7 @@ function processDownloadsByPlatform(data: DownloadData[]): DailyDownloadData[] {
 	const result = Object.values(groupedByPlatformAndDate).sort(
 		(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
 	);
-
-	console.log('Processed platform download data:', result);
 	return result;
-}
-
-export async function fetchDailyDownloadsStatsRange(): Promise<DailyDownloadData[]> {
-	try {
-		const isDev = import.meta.env.DEV;
-		const thirtyDaysAgo = new Date();
-		thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-		const startDate = thirtyDaysAgo.toISOString().split('T')[0];
-		const endDate = new Date().toISOString().split('T')[0];
-
-		const apiUrl = isDev
-			? `/api/downloads?collected_at=gte.${startDate}&collected_at=lte.${endDate}`
-			: `${ZUPLO_API_URL}/downloads?collected_at=gte.${startDate}&collected_at=lte.${endDate}`;
-
-		const response = await fetch(apiUrl, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-
-		if (!response.ok) {
-			throw new Error(`Failed to fetch downloads: ${response.status}`);
-		}
-
-		const data: DownloadData[] = await response.json();
-		return processDownloadsByPlatform(data);
-	} catch (error) {
-		console.error('Error fetching daily downloads stats:', error);
-		return [];
-	}
 }
 
 function getMockDataStats(): DownloadsStats {
