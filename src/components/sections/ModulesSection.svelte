@@ -107,15 +107,6 @@
 		</div>
 
 		<div class="mt-12 text-center" data-animate="fade">
-			<p class="mb-4 text-gray-600">
-				{#if $modulesQuery.isStale}
-					Modules data is refreshing...
-				{:else if $modulesQuery.dataUpdatedAt}
-					Last updated: {new Date($modulesQuery.dataUpdatedAt).toLocaleTimeString()}
-				{:else}
-					Modules automatically fetched from our GitHub organization
-				{/if}
-			</p>
 			<a
 				href={modulesUrl}
 				target="_blank"
