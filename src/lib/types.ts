@@ -42,12 +42,6 @@ export interface DownloadData {
 	collected_at: string;
 }
 
-export interface DailyDownloadData {
-	source: string;
-	date: string;
-	downloads: number;
-}
-
 export interface DownloadsStats {
 	totalDownloads: number;
 	totalModules: number;

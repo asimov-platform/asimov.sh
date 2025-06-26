@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import Download from 'phosphor-svelte/lib/Download';
-	import { fetchDownloadsStats, formatDownloads } from '../../lib/downloads';
+	import {
+		fetchDailyDownloadsStats,
+		getTotalDownloadsFromTimeline,
+		formatDownloads
+	} from '../../lib/downloads';
 
 	interface Props {
 		variant?: 'desktop' | 'mobile';
@@ -10,12 +14,16 @@
 	let { variant = 'desktop' }: Props = $props();
 
 	const downloadsQuery = createQuery({
-		queryKey: ['downloads-stats'],
-		queryFn: fetchDownloadsStats,
+		queryKey: ['daily-download-stats'],
+		queryFn: fetchDailyDownloadsStats,
 		staleTime: 30 * 60 * 1000,
 		gcTime: 60 * 60 * 1000,
 		retry: 2
 	});
+
+	const totalDownloads = $derived(
+		$downloadsQuery.data ? getTotalDownloadsFromTimeline($downloadsQuery.data) : 0
+	);
 
 	const badgeClass =
 		variant === 'desktop'
@@ -29,10 +37,10 @@
 </script>
 
 {#if $downloadsQuery.data}
-	<div class={badgeClass}>
+	<div class={badgeClass} title="Total daily downloads across all platforms">
 		<Download size={14} class="text-gray-500" />
 		<span class="font-medium text-gray-700">
-			{formatDownloads($downloadsQuery.data.totalDownloads)}
+			{formatDownloads(totalDownloads)}
 		</span>
 	</div>
 {:else if $downloadsQuery.isLoading}
