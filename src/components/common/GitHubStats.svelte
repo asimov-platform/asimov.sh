@@ -4,6 +4,7 @@
 	import Users from 'phosphor-svelte/lib/Users';
 	import { fetchGitHubStats, formatStars } from '../../lib/github';
 	import { githubUrl } from '../../lib/config';
+	import type { Module } from '../../lib/types';
 
 	interface Props {
 		variant?: 'desktop' | 'mobile';
@@ -45,21 +46,43 @@
 
 {#if $githubStatsQuery.data}
 	<div class={containerClass}>
-		{#if $githubStatsQuery.data.topRepo}
+		{#if $githubStatsQuery.data.repositories}
+			{@const asimovRsRepo = $githubStatsQuery.data.repositories.find(
+				(repo: Module) => repo.name === 'asimov.rs'
+			)}
+			{#if asimovRsRepo}
+				<a
+					href={asimovRsRepo.url}
+					target="_blank"
+					rel="noopener noreferrer"
+					class={linkClass}
+					title={asimovRsRepo.name}
+				>
+					<Star size={14} class={iconClass} />
+					<span class={textClass}>
+						{formatStars(asimovRsRepo.stars)}
+					</span>
+				</a>
+			{:else}
+				<a
+					href="https://github.com/asimov-platform/asimov.rs"
+					target="_blank"
+					rel="noopener noreferrer"
+					class={linkClass}
+				>
+					<Star size={14} class={iconClass} />
+					<span class={textClass}>
+						{formatStars($githubStatsQuery.data.stars)}
+					</span>
+				</a>
+			{/if}
+		{:else}
 			<a
-				href={$githubStatsQuery.data.topRepo.url}
+				href="https://github.com/asimov-platform/asimov.rs"
 				target="_blank"
 				rel="noopener noreferrer"
 				class={linkClass}
-				title={$githubStatsQuery.data.topRepo.name}
 			>
-				<Star size={14} class={iconClass} />
-				<span class={textClass}>
-					{formatStars($githubStatsQuery.data.topRepo.stars)}
-				</span>
-			</a>
-		{:else}
-			<a href="{githubUrl}/asimov.rs" target="_blank" rel="noopener noreferrer" class={linkClass}>
 				<Star size={14} class={iconClass} />
 				<span class={textClass}>
 					{formatStars($githubStatsQuery.data.stars)}

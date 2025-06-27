@@ -14,6 +14,7 @@ export interface Module {
 	url: string;
 	language: string;
 	topics: string[];
+	manifestYAML?: string;
 }
 
 export interface AsimovManifest {
@@ -51,27 +52,13 @@ export interface DownloadsStats {
 export interface GitHubStats {
 	stars: number;
 	followers: number;
-	topRepo?: {
-		name: string;
-		description: string;
-		stars: number;
-		url: string;
-		language: string;
-	};
+	topRepo?: Module;
+	repositories: Module[];
 }
 
 export interface ApiMetricsResponse {
 	fetchedAt: string;
 	orgFollowers: number;
 	totalStars: number;
-	repositories: {
-		name: string;
-		description: string | null;
-		stars: number;
-		starsPretty: string;
-		url: string;
-		language: string;
-		topics: string[];
-		manifestYAML?: string;
-	}[];
+	repositories: Module[];
 }
