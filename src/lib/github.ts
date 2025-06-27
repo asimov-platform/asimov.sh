@@ -65,13 +65,15 @@ export async function fetchGitHubStats(): Promise<GitHubStats> {
 						description: topRepo.description || 'No description available',
 						stars: topRepo.stars,
 						url: topRepo.url,
-						language: topRepo.language || 'Unknown'
+						language: topRepo.language || 'Unknown',
+						topics: topRepo.topics || []
 					}
-				: undefined
+				: undefined,
+			repositories: data.repositories
 		};
 	} catch (err) {
 		console.error('Failed to fetch GitHub stats:', err);
-		return { stars: 0, followers: 0 };
+		return { stars: 0, followers: 0, topRepo: undefined, repositories: [] };
 	}
 }
 
