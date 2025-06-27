@@ -52,13 +52,23 @@ export interface DownloadsStats {
 export interface GitHubStats {
 	stars: number;
 	followers: number;
-	topRepo?: Module;
-	repositories: Module[];
+	topRepo?: PlatformRepository;
+	repositories: PlatformRepository[];
+}
+
+export interface PlatformRepository {
+	name: string;
+	description: string | null;
+	stars: number;
+	url: string;
+	language: string;
+	topics: string[];
+	manifestYAML?: string;
 }
 
 export interface ApiMetricsResponse {
 	fetchedAt: string;
 	orgFollowers: number;
 	totalStars: number;
-	repositories: Module[];
+	repositories: PlatformRepository[];
 }
