@@ -38,7 +38,7 @@
 >
 	<div class="container mx-auto flex h-20 items-center justify-between px-4">
 		<a href="#top" class="flex items-center gap-2">
-			<Logo class="w-50 text-gray-900" />
+			<Logo class="w-30 text-gray-900 md:w-50" />
 		</a>
 
 		<nav class="hidden items-center space-x-8 md:flex">
@@ -60,16 +60,18 @@
 			<DownloadStats variant="desktop" />
 		</div>
 
-		<button
-			class="text-gray-600 hover:text-gray-900 focus:outline-none md:hidden"
-			onclick={toggleMenu}
-		>
-			{#if isOpen}
-				<X size={24} weight="bold" />
-			{:else}
-				<List size={24} weight="bold" />
-			{/if}
-		</button>
+		<!-- Mobile: Stats + Menu Button -->
+		<div class="flex items-center gap-3 md:hidden">
+			<GitHubStats variant="mobile" />
+			<DownloadStats variant="mobile" />
+			<button class="text-gray-600 hover:text-gray-900 focus:outline-none" onclick={toggleMenu}>
+				{#if isOpen}
+					<X size={24} weight="bold" />
+				{:else}
+					<List size={24} weight="bold" />
+				{/if}
+			</button>
+		</div>
 	</div>
 
 	{#if isOpen}
@@ -80,13 +82,11 @@
 						<a
 							href={item.href}
 							class="border-b border-gray-200 py-2 text-gray-600 transition-colors last:border-b-0 hover:text-orange-600"
+							onclick={() => (isOpen = false)}
 						>
 							{item.text}
 						</a>
 					{/each}
-
-					<GitHubStats variant="mobile" />
-					<DownloadStats variant="mobile" />
 				</nav>
 			</div>
 		</div>

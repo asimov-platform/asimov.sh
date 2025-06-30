@@ -28,18 +28,23 @@
 	const badgeClass =
 		variant === 'desktop'
 			? 'flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white/80 px-3 py-1.5 text-sm'
-			: 'flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm';
+			: 'flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs';
 
 	const loadingClass =
 		variant === 'desktop'
 			? 'animate-pulse rounded-lg bg-gray-200 px-3 py-1.5'
-			: 'animate-pulse rounded-lg bg-gray-200 px-3 py-1.5';
+			: 'animate-pulse rounded-lg bg-gray-200 px-2 py-1';
+
+	const iconClass = 'text-gray-500';
+
+	const textClass =
+		variant === 'desktop' ? 'font-medium text-gray-700' : 'font-medium text-gray-700 text-xs';
 </script>
 
 {#if $downloadsQuery.data}
 	<div class={badgeClass} title="Total daily downloads across all platforms">
-		<Download size={14} class="text-gray-500" />
-		<span class="font-medium text-gray-700">
+		<Download size={variant === 'desktop' ? 14 : 10} class={iconClass} />
+		<span class={textClass}>
 			{formatDownloads(totalDownloads)}
 		</span>
 	</div>

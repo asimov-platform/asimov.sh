@@ -4,7 +4,7 @@
 	import Users from 'phosphor-svelte/lib/Users';
 	import { fetchGitHubStats, formatStars } from '../../lib/github';
 	import { githubUrl } from '../../lib/config';
-	import type { Module } from '../../lib/types';
+	import type { Module, GitHubStats } from '../../lib/types';
 
 	interface Props {
 		variant?: 'desktop' | 'mobile';
@@ -20,15 +20,43 @@
 		retry: 1
 	});
 
+	const data = $derived($githubStatsQuery.data as GitHubStats | undefined);
+	const topRepos = $derived(
+		data?.repositories?.sort((a, b) => b.stars - a.stars).slice(0, 4) || []
+	);
+
+	let showDropdown = $state(false);
+	let dropdownTimeout: NodeJS.Timeout | null = null;
+
+	function handleMouseEnter() {
+		if (dropdownTimeout) {
+			clearTimeout(dropdownTimeout);
+		}
+		showDropdown = true;
+	}
+
+	function handleMouseLeave() {
+		dropdownTimeout = setTimeout(() => {
+			showDropdown = false;
+		}, 150);
+	}
+
+	function toggleDropdown() {
+		showDropdown = !showDropdown;
+	}
+
 	const containerClass =
-		variant === 'desktop'
-			? 'flex items-center gap-3'
-			: 'flex items-center justify-center gap-4 py-2';
+		variant === 'desktop' ? 'flex items-center gap-3' : 'flex items-center gap-2';
 
 	const linkClass =
 		variant === 'desktop'
 			? 'group flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white/80 px-3 py-1.5 text-sm transition-all hover:border-orange-200 hover:bg-orange-50'
-			: 'flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm';
+			: 'flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs';
+
+	const starButtonClass =
+		variant === 'desktop'
+			? 'group relative flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white/80 px-3 py-1.5 text-sm transition-all hover:border-orange-200 hover:bg-orange-50 cursor-pointer'
+			: 'relative flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs cursor-pointer';
 
 	const iconClass =
 		variant === 'desktop' ? 'text-gray-500 group-hover:text-orange-600' : 'text-gray-500';
@@ -44,7 +72,7 @@
 			: 'flex items-center justify-center gap-4 py-2';
 </script>
 
-{#if $githubStatsQuery.data}
+{#if data}
 	<div class={containerClass}>
 		{#if $githubStatsQuery.data.repositories}
 			{@const asimovRsRepo = $githubStatsQuery.data.repositories.find(
@@ -85,14 +113,14 @@
 			>
 				<Star size={14} class={iconClass} />
 				<span class={textClass}>
-					{formatStars($githubStatsQuery.data.stars)}
+					{formatStars(data.stars)}
 				</span>
 			</a>
 		{/if}
 		<a href={githubUrl} target="_blank" rel="noopener noreferrer" class={linkClass}>
-			<Users size={14} class={iconClass} />
+			<Users size={variant === 'desktop' ? 14 : 10} class={iconClass} />
 			<span class={textClass}>
-				{formatStars($githubStatsQuery.data.followers)}
+				{formatStars(data.followers)}
 			</span>
 		</a>
 	</div>
