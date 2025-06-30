@@ -1,12 +1,16 @@
-<script lang="ts">
+<script lang="ts" generics="T extends PlatformRepository">
 	import Package from 'phosphor-svelte/lib/Package';
 	import ArrowRight from 'phosphor-svelte/lib/ArrowRight';
 	import Star from 'phosphor-svelte/lib/Star';
 	import { formatStars, getLanguageColor } from '../../lib/github';
-	import type { Module } from '../../lib/types';
+	import type { PlatformRepository } from '../../lib/types';
 
-	export let module: Module;
-	export let index: number = 0;
+	interface Props {
+		module: T;
+		index?: number;
+	}
+
+	let { module, index = 0 }: Props = $props();
 </script>
 
 <div

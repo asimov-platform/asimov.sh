@@ -54,6 +54,7 @@ export interface GitHubStats {
 	followers: number;
 	topRepo?: PlatformRepository;
 	repositories: PlatformRepository[];
+	pinnedRepositories?: PlatformRepository[];
 }
 
 export interface PlatformRepository {
@@ -63,7 +64,6 @@ export interface PlatformRepository {
 	url: string;
 	language: string;
 	topics: string[];
-	manifestYAML?: string;
 }
 
 export interface ApiMetricsResponse {
@@ -71,4 +71,12 @@ export interface ApiMetricsResponse {
 	orgFollowers: number;
 	totalStars: number;
 	repositories: PlatformRepository[];
+	pinnedRepositories: PlatformRepository[];
+}
+
+export interface ModuleMetricsResponse {
+	fetchedAt: string;
+	orgFollowers: number;
+	totalStars: number;
+	repositories: Module[];
 }

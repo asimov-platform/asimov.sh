@@ -1,6 +1,12 @@
 import { load as yamlLoad } from 'js-yaml';
 import { ZUPLO_API_URL } from './config';
-import type { AsimovManifest, ApiMetricsResponse, GitHubStats, Module } from './types';
+import type {
+	AsimovManifest,
+	ApiMetricsResponse,
+	ModuleMetricsResponse,
+	GitHubStats,
+	Module
+} from './types';
 
 export const fallbackModules: Module[] = [
 	{
@@ -51,7 +57,8 @@ export async function fetchGitHubStats(): Promise<GitHubStats> {
 			fetchedAt: '',
 			orgFollowers: 0,
 			totalStars: 0,
-			repositories: []
+			repositories: [],
+			pinnedRepositories: []
 		});
 
 		const topRepo = data.repositories.sort((a, b) => b.stars - a.stars)[0];
@@ -69,7 +76,8 @@ export async function fetchGitHubStats(): Promise<GitHubStats> {
 						topics: topRepo.topics || []
 					}
 				: undefined,
-			repositories: data.repositories
+			repositories: data.repositories,
+			pinnedRepositories: data.pinnedRepositories
 		};
 	} catch (err) {
 		console.error('Failed to fetch GitHub stats:', err);
@@ -89,7 +97,7 @@ function parseManifest(manifestYAML?: string): AsimovManifest | null {
 }
 
 export async function fetchTopModulesQuery(): Promise<Module[]> {
-	const data = await fetchWithFallback<ApiMetricsResponse>('metrics/asimov-modules', {
+	const data = await fetchWithFallback<ModuleMetricsResponse>('metrics/asimov-modules', {
 		fetchedAt: '',
 		orgFollowers: 0,
 		totalStars: 0,

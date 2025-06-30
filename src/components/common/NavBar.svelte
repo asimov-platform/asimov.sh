@@ -3,8 +3,7 @@
 	import List from 'phosphor-svelte/lib/List';
 	import X from 'phosphor-svelte/lib/X';
 	import Logo from './Logo.svelte';
-	import GitHubStats from './GitHubStats.svelte';
-	import DownloadStats from './DownloadStats.svelte';
+	import StatsBar from './StatsBar.svelte';
 
 	let isOpen = $state(false);
 	let isScrolled = $state(false);
@@ -56,22 +55,19 @@
 		</nav>
 
 		<div class="hidden items-center gap-4 md:flex">
-			<GitHubStats variant="desktop" />
-			<DownloadStats variant="desktop" />
+			<StatsBar variant="desktop" />
 		</div>
 
-		<!-- Mobile: Stats + Menu Button -->
-		<div class="flex items-center gap-3 md:hidden">
-			<GitHubStats variant="mobile" />
-			<DownloadStats variant="mobile" />
-			<button class="text-gray-600 hover:text-gray-900 focus:outline-none" onclick={toggleMenu}>
-				{#if isOpen}
-					<X size={24} weight="bold" />
-				{:else}
-					<List size={24} weight="bold" />
-				{/if}
-			</button>
-		</div>
+		<button
+			class="text-gray-600 hover:text-gray-900 focus:outline-none md:hidden"
+			onclick={toggleMenu}
+		>
+			{#if isOpen}
+				<X size={24} weight="bold" />
+			{:else}
+				<List size={24} weight="bold" />
+			{/if}
+		</button>
 	</div>
 
 	{#if isOpen}
@@ -87,6 +83,7 @@
 							{item.text}
 						</a>
 					{/each}
+					<StatsBar variant="mobile" />
 				</nav>
 			</div>
 		</div>
