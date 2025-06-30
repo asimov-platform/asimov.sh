@@ -3,8 +3,7 @@
 	import List from 'phosphor-svelte/lib/List';
 	import X from 'phosphor-svelte/lib/X';
 	import Logo from './Logo.svelte';
-	import GitHubStats from './GitHubStats.svelte';
-	import DownloadStats from './DownloadStats.svelte';
+	import StatsBar from './StatsBar.svelte';
 
 	let isOpen = $state(false);
 	let isScrolled = $state(false);
@@ -38,7 +37,7 @@
 >
 	<div class="container mx-auto flex h-20 items-center justify-between px-4">
 		<a href="#top" class="flex items-center gap-2">
-			<Logo class="w-50 text-gray-900" />
+			<Logo class="w-30 text-gray-900 md:w-50" />
 		</a>
 
 		<nav class="hidden items-center space-x-8 md:flex">
@@ -56,8 +55,7 @@
 		</nav>
 
 		<div class="hidden items-center gap-4 md:flex">
-			<GitHubStats variant="desktop" />
-			<DownloadStats variant="desktop" />
+			<StatsBar variant="desktop" />
 		</div>
 
 		<button
@@ -80,13 +78,12 @@
 						<a
 							href={item.href}
 							class="border-b border-gray-200 py-2 text-gray-600 transition-colors last:border-b-0 hover:text-orange-600"
+							onclick={() => (isOpen = false)}
 						>
 							{item.text}
 						</a>
 					{/each}
-
-					<GitHubStats variant="mobile" />
-					<DownloadStats variant="mobile" />
+					<StatsBar variant="mobile" />
 				</nav>
 			</div>
 		</div>

@@ -6,6 +6,7 @@
 	import Hero from './components/sections/Hero.svelte';
 	import NotJustAnAPI from './components/sections/NotJustAnAPI.svelte';
 	import ModulesSection from './components/sections/ModulesSection.svelte';
+	import TopRepositories from './components/sections/TopRepositories.svelte';
 	import LearnAndCode from './components/sections/LearnAndCode.svelte';
 	import WhyAsimov from './components/sections/WhyAsimov.svelte';
 	import DailyDownloads from './components/sections/DailyDownloads.svelte';
@@ -44,6 +45,7 @@
 			<Hero />
 			<NotJustAnAPI />
 			<ModulesSection />
+			<TopRepositories />
 			<LearnAndCode />
 			<WhyAsimov />
 			<DailyDownloads />
