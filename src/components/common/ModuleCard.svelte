@@ -13,7 +13,10 @@
 	let { module, index = 0 }: Props = $props();
 </script>
 
-<div
+<a
+	href={module.url}
+	target="_blank"
+	rel="noopener noreferrer"
 	class="group rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-all hover:border-orange-200 hover:shadow-lg"
 	data-animate="slide-up"
 	style="animation-delay: {index * 0.1}s;"
@@ -50,13 +53,10 @@
 		</div>
 	{/if}
 
-	<a
-		href={module.url}
-		target="_blank"
-		rel="noopener noreferrer"
+	<span
 		class="inline-flex items-center gap-2 font-medium text-orange-600 transition-colors group-hover:gap-3 hover:text-orange-700"
 	>
 		View on GitHub
 		<ArrowRight size={16} class="transition-transform group-hover:translate-x-1" />
-	</a>
-</div>
+	</span>
+</a>
