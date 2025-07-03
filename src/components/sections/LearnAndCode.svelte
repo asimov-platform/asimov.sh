@@ -23,7 +23,7 @@ $ asimov module list`,
 				'Browse available modules',
 				'Comprehensive documentation'
 			],
-			link: 'https://github.com/asimov-platform/asimov-module-cli',
+			link: 'https://github.com/asimov-platform/asimov-cli',
 			linkText: 'Get Started'
 		},
 		{
@@ -155,7 +155,7 @@ data = brightdata.scrape("https://example.com")`,
 				</p>
 				<div class="flex flex-col justify-center gap-4 sm:flex-row">
 					<a
-						href="https://github.com/asimov-platform/asimov-module-cli"
+						href="https://github.com/asimov-platform/asimov-cli"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="inline-flex items-center gap-2 rounded-lg bg-black px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800"
