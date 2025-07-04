@@ -16,7 +16,10 @@
 			codeExample: `$ brew tap asimov-platform/tap
 $ brew install asimov-cli
 $ asimov module install http
-$ asimov module list`,
+$ asimov module list
+$ # Now you're able to fetch any HTTP resources,
+$ # such as the source code of this page:
+$ asimov fetch https://asimov.sh`,
 			features: [
 				'Install CLI with Homebrew',
 				'Install and use modules',
@@ -27,14 +30,17 @@ $ asimov module list`,
 			linkText: 'Get Started'
 		},
 		{
-			title: 'Code',
-			description: 'Install and integrate modules into your applications seamlessly',
+			title: 'Integrate',
+			description: 'Install modules to seamlessly integrate with APIs and third-party services',
 			icon: Code,
 			codeExample: `$ asimov module install brightdata
-$ asimov module install langchain-asimov
-
-from asimov_modules import brightdata
-data = brightdata.scrape("https://example.com")`,
+$ export BRIGHTDATA_API_KEY="<your-api-key>"
+$ asimov import https://x.com/ASIMOV_Platform
+[{
+    "profile_name": "ASIMOV Platform",
+    "biography": "The polyglot development platform for trustworthy, neurosymbolic AI.",
+    ...
+}]`,
 			features: [
 				'50+ verified modules',
 				'Simple installation',
