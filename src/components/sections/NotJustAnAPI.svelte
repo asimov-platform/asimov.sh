@@ -11,7 +11,7 @@ from langchain_asimov import AsimovLoader
 
 profiles = AsimovLoader(
     module="brightdata",
-    url="https://x.com/LangChainAI"
+    url="https://x.com/ASIMOV_Platform"
 )
 
 for profile in profiles.lazy_load():
