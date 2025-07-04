@@ -13,13 +13,13 @@
 			title: 'Learn',
 			description: 'Get started with ASIMOV CLI and understand the module ecosystem',
 			icon: Book,
-			codeExample: `$ cargo install asimov-module-cli
-$ asimov init my-project
-$ cd my-project
+			codeExample: `$ brew tap asimov-platform/tap
+$ brew install asimov-cli
+$ asimov module install http
 $ asimov module list`,
 			features: [
-				'Install CLI with Cargo',
-				'Initialize projects quickly',
+				'Install CLI with Homebrew',
+				'Install and use modules',
 				'Browse available modules',
 				'Comprehensive documentation'
 			],
