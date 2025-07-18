@@ -37,7 +37,7 @@ export function formatDownloads(downloads: number): string {
 	return downloads.toLocaleString();
 }
 
-// Function to get the total daily downloads accross all platforms
+// Function to get the total daily downloads across all platforms
 export function getTotalDownloadsFromTimeline(
 	timelineData: Record<string, Array<{ date: string; count: number }>>
 ): number {
