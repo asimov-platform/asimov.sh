@@ -84,12 +84,19 @@
 				left: '3%',
 				right: '4%',
 				bottom: '3%',
-				top: '15%',
+				top: '25%',
 				containLabel: true
 			},
 			legend: {
 				data: Object.keys(groupedData).map((p) => p.charAt(0).toUpperCase() + p.slice(1)),
-				top: '8%'
+				top: '10%',
+				type: 'scroll' as const,
+				orient: 'horizontal' as const,
+				pageButtonItemGap: 5,
+				pageButtonGap: 30,
+				pageTextStyle: {
+					color: '#666'
+				}
 			},
 			tooltip: {
 				trigger: 'axis' as const,
