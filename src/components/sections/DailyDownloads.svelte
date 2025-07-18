@@ -5,7 +5,7 @@
 
 	const dailyDownloadsQuery = createQuery({
 		queryKey: ['daily-download-stats'],
-		queryFn: fetchDailyDownloadsStats,
+		queryFn: () => fetchDailyDownloadsStats(),
 		staleTime: 30 * 60 * 1000,
 		gcTime: 60 * 60 * 1000,
 		retry: 2
