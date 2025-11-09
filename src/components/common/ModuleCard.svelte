@@ -1,9 +1,9 @@
-<script lang="ts" generics="T extends PlatformRepository">
+<script lang="ts" generics="T extends GithubRepository">
 	import Package from 'phosphor-svelte/lib/Package';
 	import ArrowRight from 'phosphor-svelte/lib/ArrowRight';
 	import Star from 'phosphor-svelte/lib/Star';
 	import { formatStars, getLanguageColor } from '../../lib/utils';
-	import type { PlatformRepository } from '../../lib/types';
+	import type { GithubRepository } from '../../lib/types';
 
 	interface Props {
 		module: T;
@@ -30,28 +30,20 @@
 				<h3 class="font-semibold text-gray-900 transition-colors group-hover:text-orange-600">
 					{module.name}
 				</h3>
-				<span class="rounded-full px-2 py-1 text-sm {getLanguageColor(module.language)}">
-					{module.language}
+				<span
+					class="rounded-full px-2 py-1 text-sm {getLanguageColor(module.primaryLanguage.name)}"
+				>
+					{module.primaryLanguage.name}
 				</span>
 			</div>
 		</div>
 		<div class="flex items-center gap-1 text-gray-500">
 			<Star size={16} />
-			<span class="text-sm font-medium">{formatStars(module.stars)}</span>
+			<span class="text-sm font-medium">{formatStars(module.stargazerCount)}</span>
 		</div>
 	</div>
 
 	<p class="mb-4 leading-relaxed text-gray-600">{module.description}</p>
-
-	{#if module.topics.length > 0}
-		<div class="mb-4 flex flex-wrap gap-2">
-			{#each module.topics.slice(0, 3) as topic (topic)}
-				<span class="rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-600">
-					{topic}
-				</span>
-			{/each}
-		</div>
-	{/if}
 
 	<span
 		class="inline-flex items-center gap-2 font-medium text-orange-600 transition-colors group-hover:gap-3 hover:text-orange-700"

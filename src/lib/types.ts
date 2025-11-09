@@ -89,8 +89,19 @@ export interface SupabaseDownloadRecord {
 export interface GithubRepository {
 	name: string;
 	description: string;
-	stargazerCount: string;
+	stargazerCount: number;
 	url: string;
+	createdAt: string;
+	updatedAt: string;
+	primaryLanguage: {
+		name: string;
+	};
+}
+
+export interface ModuleRepository extends GithubRepository {
+	object: {
+		text: string;
+	};
 }
 
 export interface GraphQLPagination {

@@ -7,6 +7,7 @@ import type {
 	GitHubStats,
 	Module,
 	GithubRepository,
+	ModuleRepository,
 	GraphQLPagination
 } from './types';
 
@@ -147,7 +148,7 @@ export const fetchTotalRepositoryStars = async (): Promise<number> => {
 			} as { repositories: GithubRepository[]; meta: GraphQLPagination }
 		);
 		const totalStars = data.repositories.reduce(
-			(total, repository) => total + parseInt(repository.stargazerCount, 10),
+			(total, repository) => total + repository.stargazerCount,
 			0
 		);
 		return totalStars;
@@ -162,11 +163,25 @@ export const fetchPinnedRepositories = async (): Promise<GithubRepository[]> => 
 		const data = await fetchWithFallback('metrics/github/pinned-repositories?org=asimov-platform', {
 			repositories: []
 		} as { repositories: GithubRepository[] });
-		return data.repositories
-			.sort((a, b) => parseInt(b.stargazerCount, 10) - parseInt(a.stargazerCount, 10))
-			.slice(0, 4);
+		return data.repositories.sort((a, b) => b.stargazerCount - a.stargazerCount).slice(0, 4);
 	} catch (error) {
 		console.error('Error fetching pinned repositories:', error);
+		return [];
+	}
+};
+
+export const fetchModules = async (): Promise<ModuleRepository[]> => {
+	try {
+		const data = await fetchWithFallback(
+			'metrics/github/repositories?org=asimov-modules&limit=30',
+			{
+				repositories: [],
+				meta: { endCursor: '', hasNextPage: false }
+			} as { repositories: ModuleRepository[]; meta: GraphQLPagination }
+		);
+		return data.repositories.sort((a, b) => b.stargazerCount - a.stargazerCount).slice(0, 3);
+	} catch (error) {
+		console.error('Error fetching modules:', error);
 		return [];
 	}
 };
