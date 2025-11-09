@@ -85,3 +85,15 @@ export interface SupabaseDownloadRecord {
 	date: string;
 	count: number;
 }
+
+export interface GithubRepository {
+	name: string;
+	description: string;
+	stargazerCount: string;
+	url: string;
+}
+
+export interface GraphQLPagination {
+	endCursor: string;
+	hasNextPage: boolean;
+}

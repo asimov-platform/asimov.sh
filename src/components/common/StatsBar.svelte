@@ -3,7 +3,7 @@
 	import Star from 'phosphor-svelte/lib/Star';
 	import Users from 'phosphor-svelte/lib/Users';
 	import Download from 'phosphor-svelte/lib/Download';
-	import { fetchGitHubStats } from '../../lib/github';
+	import { fetchTotalRepositoryStars, fetchOrgFollowers } from '../../lib/github';
 	import { fetchTotalDailyDownloads } from '../../lib/downloads';
 	import { formatDownloads, formatStars } from '../../lib/utils';
 	import { githubUrl } from '../../lib/config';
@@ -16,9 +16,17 @@
 
 	let { variant = 'desktop' }: Props = $props();
 
-	const githubStatsQuery = createQuery({
-		queryKey: ['github-stats'],
-		queryFn: fetchGitHubStats,
+	const asimovPlatformGithubStarsQuery = createQuery({
+		queryKey: ['github-stars-asimov-platform'],
+		queryFn: fetchTotalRepositoryStars,
+		staleTime: 10 * 60 * 1000,
+		gcTime: 20 * 60 * 1000,
+		retry: 2
+	});
+
+	const asimovPlatformFollowersCountQuery = createQuery({
+		queryKey: ['github-followers-asimov-platform'],
+		queryFn: fetchOrgFollowers,
 		staleTime: 10 * 60 * 1000,
 		gcTime: 20 * 60 * 1000,
 		retry: 2
@@ -32,7 +40,8 @@
 		retry: 2
 	});
 
-	const githubData = $derived($githubStatsQuery.data);
+	const starsCount = $derived($asimovPlatformGithubStarsQuery.data ?? 0);
+	const followersCount = $derived($asimovPlatformFollowersCountQuery.data ?? 0);
 	const totalDownloads = $derived($downloadsQuery.data ?? 0);
 
 	const containerClass =
@@ -42,9 +51,9 @@
 </script>
 
 <div class={containerClass}>
-	{#if githubData}
+	{#if starsCount}
 		<MetricBadge
-			value={formatStars(githubData.stars)}
+			value={formatStars(starsCount)}
 			href="#top-repositories"
 			title="View top star-rated repositories"
 			{variant}
@@ -53,13 +62,13 @@
 				<Star size={variant === 'desktop' ? 14 : 10} />
 			{/snippet}
 		</MetricBadge>
-	{:else if $githubStatsQuery.isLoading}
+	{:else if $asimovPlatformGithubStarsQuery.isLoading}
 		<MetricsSkeleton wrapperClassName={loadingClass} />
 	{/if}
 
-	{#if githubData}
+	{#if followersCount}
 		<MetricBadge
-			value={formatStars(githubData.followers)}
+			value={formatStars(followersCount)}
 			href={githubUrl}
 			title="View GitHub profile"
 			{variant}
@@ -69,7 +78,7 @@
 				<Users size={variant === 'desktop' ? 14 : 10} />
 			{/snippet}
 		</MetricBadge>
-	{:else if $githubStatsQuery.isLoading}
+	{:else if $asimovPlatformFollowersCountQuery.isLoading}
 		<MetricsSkeleton wrapperClassName={loadingClass} />
 	{/if}
 
