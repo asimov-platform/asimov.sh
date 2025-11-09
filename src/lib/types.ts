@@ -80,3 +80,8 @@ export interface ModuleMetricsResponse {
 	totalStars: number;
 	repositories: Module[];
 }
+
+export interface SupabaseDownloadRecord {
+	date: string;
+	count: number;
+}

@@ -3,12 +3,9 @@
 	import Star from 'phosphor-svelte/lib/Star';
 	import Users from 'phosphor-svelte/lib/Users';
 	import Download from 'phosphor-svelte/lib/Download';
-	import { fetchGitHubStats, formatStars } from '../../lib/github';
-	import {
-		fetchDailyDownloadsStats,
-		getTotalDownloadsFromTimeline,
-		formatDownloads
-	} from '../../lib/downloads';
+	import { fetchGitHubStats } from '../../lib/github';
+	import { fetchTotalDailyDownloads } from '../../lib/downloads';
+	import { formatDownloads, formatStars } from '../../lib/utils';
 	import { githubUrl } from '../../lib/config';
 	import MetricBadge from './MetricBadge.svelte';
 	import MetricsSkeleton from './MetricSkeleton.svelte';
@@ -28,17 +25,15 @@
 	});
 
 	const downloadsQuery = createQuery({
-		queryKey: ['daily-download-stats'],
-		queryFn: () => fetchDailyDownloadsStats(),
+		queryKey: ['total-daily-download-stats'],
+		queryFn: fetchTotalDailyDownloads,
 		staleTime: 30 * 60 * 1000,
 		gcTime: 60 * 60 * 1000,
 		retry: 2
 	});
 
 	const githubData = $derived($githubStatsQuery.data);
-	const totalDownloads = $derived(
-		$downloadsQuery.data ? getTotalDownloadsFromTimeline($downloadsQuery.data) : 0
-	);
+	const totalDownloads = $derived($downloadsQuery.data ?? 0);
 
 	const containerClass =
 		variant === 'desktop' ? 'flex items-center gap-3' : 'flex items-center gap-2';
