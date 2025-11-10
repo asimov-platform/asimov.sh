@@ -3,12 +3,9 @@
 	import Star from 'phosphor-svelte/lib/Star';
 	import Users from 'phosphor-svelte/lib/Users';
 	import Download from 'phosphor-svelte/lib/Download';
-	import { fetchGitHubStats, formatStars } from '../../lib/github';
-	import {
-		fetchDailyDownloadsStats,
-		getTotalDownloadsFromTimeline,
-		formatDownloads
-	} from '../../lib/downloads';
+	import { fetchTotalRepositoryStars, fetchOrgFollowers } from '../../lib/github';
+	import { fetchTotalDailyDownloads } from '../../lib/downloads';
+	import { formatDownloads, formatStars } from '../../lib/utils';
 	import { githubUrl } from '../../lib/config';
 	import MetricBadge from './MetricBadge.svelte';
 	import MetricsSkeleton from './MetricSkeleton.svelte';
@@ -19,26 +16,33 @@
 
 	let { variant = 'desktop' }: Props = $props();
 
-	const githubStatsQuery = createQuery({
-		queryKey: ['github-stats'],
-		queryFn: fetchGitHubStats,
+	const asimovPlatformGithubStarsQuery = createQuery({
+		queryKey: ['github-stars-asimov-platform'],
+		queryFn: fetchTotalRepositoryStars,
+		staleTime: 10 * 60 * 1000,
+		gcTime: 20 * 60 * 1000,
+		retry: 2
+	});
+
+	const asimovPlatformFollowersCountQuery = createQuery({
+		queryKey: ['github-followers-asimov-platform'],
+		queryFn: fetchOrgFollowers,
 		staleTime: 10 * 60 * 1000,
 		gcTime: 20 * 60 * 1000,
 		retry: 2
 	});
 
 	const downloadsQuery = createQuery({
-		queryKey: ['daily-download-stats'],
-		queryFn: () => fetchDailyDownloadsStats(),
+		queryKey: ['total-daily-download-stats'],
+		queryFn: fetchTotalDailyDownloads,
 		staleTime: 30 * 60 * 1000,
 		gcTime: 60 * 60 * 1000,
 		retry: 2
 	});
 
-	const githubData = $derived($githubStatsQuery.data);
-	const totalDownloads = $derived(
-		$downloadsQuery.data ? getTotalDownloadsFromTimeline($downloadsQuery.data) : 0
-	);
+	const starsCount = $derived($asimovPlatformGithubStarsQuery.data);
+	const followersCount = $derived($asimovPlatformFollowersCountQuery.data);
+	const totalDownloads = $derived($downloadsQuery.data);
 
 	const containerClass =
 		variant === 'desktop' ? 'flex items-center gap-3' : 'flex items-center gap-2';
@@ -47,9 +51,9 @@
 </script>
 
 <div class={containerClass}>
-	{#if githubData}
+	{#if starsCount !== undefined}
 		<MetricBadge
-			value={formatStars(githubData.stars)}
+			value={formatStars(starsCount)}
 			href="#top-repositories"
 			title="View top star-rated repositories"
 			{variant}
@@ -58,13 +62,13 @@
 				<Star size={variant === 'desktop' ? 14 : 10} />
 			{/snippet}
 		</MetricBadge>
-	{:else if $githubStatsQuery.isLoading}
+	{:else if $asimovPlatformGithubStarsQuery.isLoading}
 		<MetricsSkeleton wrapperClassName={loadingClass} />
 	{/if}
 
-	{#if githubData}
+	{#if followersCount !== undefined}
 		<MetricBadge
-			value={formatStars(githubData.followers)}
+			value={formatStars(followersCount)}
 			href={githubUrl}
 			title="View GitHub profile"
 			{variant}
@@ -74,11 +78,11 @@
 				<Users size={variant === 'desktop' ? 14 : 10} />
 			{/snippet}
 		</MetricBadge>
-	{:else if $githubStatsQuery.isLoading}
+	{:else if $asimovPlatformFollowersCountQuery.isLoading}
 		<MetricsSkeleton wrapperClassName={loadingClass} />
 	{/if}
 
-	{#if $downloadsQuery.data}
+	{#if totalDownloads !== undefined}
 		<MetricBadge
 			value={formatDownloads(totalDownloads)}
 			href="#daily-downloads"

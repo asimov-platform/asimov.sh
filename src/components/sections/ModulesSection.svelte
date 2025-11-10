@@ -5,34 +5,23 @@
 	import ArrowRight from 'phosphor-svelte/lib/ArrowRight';
 	import ModuleCard from '../common/ModuleCard.svelte';
 	import ModuleCardSkeleton from '../common/ModuleCardSkeleton.svelte';
-	import { fetchTopModulesQuery, fallbackModules } from '../../lib/github';
+	import { fetchModules } from '../../lib/github';
 	import { modulesUrl } from '../../lib/config';
 
 	let actorsSection: HTMLElement;
 	const skeletonItems = [0, 1, 2];
 
 	const modulesQuery = createQuery({
-		queryKey: ['modules', 'top'],
-		queryFn: fetchTopModulesQuery,
+		queryKey: ['github-asimov-modules-repositories'],
+		queryFn: fetchModules,
 		staleTime: 5 * 60 * 1000, // 5 minutes
 		gcTime: 10 * 60 * 1000, // 10 minutes
 		retry: 2
 	});
 
-	$: modules = $modulesQuery.data || fallbackModules;
+	$: modules = $modulesQuery.data !== undefined ? $modulesQuery.data : error ? [] : undefined;
 	$: loading = $modulesQuery.isLoading;
 	$: error = $modulesQuery.error;
-
-	$: if ($modulesQuery.status) {
-		console.log('📦 Modules Query Status:', {
-			status: $modulesQuery.status,
-			isFetching: $modulesQuery.isFetching,
-			isStale: $modulesQuery.isStale,
-			dataUpdatedAt: $modulesQuery.dataUpdatedAt
-				? new Date($modulesQuery.dataUpdatedAt).toLocaleTimeString()
-				: 'Never'
-		});
-	}
 
 	onMount(() => {
 		const observer = new IntersectionObserver(
@@ -96,8 +85,9 @@
 					<p class="mb-4">Unable to load modules from GitHub</p>
 					<p class="text-sm">Showing fallback modules</p>
 				</div>
-				{#each fallbackModules as module, i (module.name)}
-					<ModuleCard {module} index={i} />
+				<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
+				{#each { length: 3 } as _, i ('module-repo-' + i)}
+					<ModuleCardSkeleton />
 				{/each}
 			{:else}
 				{#each modules as module, i (module.name)}

@@ -3,26 +3,23 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import Star from 'phosphor-svelte/lib/Star';
 	import ArrowRight from 'phosphor-svelte/lib/ArrowRight';
-	import { fetchGitHubStats } from '../../lib/github';
+	import { fetchPinnedRepositories } from '../../lib/github';
 	import { githubUrl } from '../../lib/config';
 	import ModuleCard from '../common/ModuleCard.svelte';
 	import ModuleCardSkeleton from '../common/ModuleCardSkeleton.svelte';
-	import type { GitHubStats } from '../../lib/types';
+	import type { GithubRepository } from '../../lib/types';
 
 	let repositoriesSection: HTMLElement;
 
-	const githubStatsQuery = createQuery({
-		queryKey: ['github-stats'],
-		queryFn: fetchGitHubStats,
+	const asimovPlatformPinnedReposQuery = createQuery({
+		queryKey: ['github-pinned-repositories'],
+		queryFn: fetchPinnedRepositories,
 		staleTime: 10 * 60 * 1000,
 		gcTime: 20 * 60 * 1000,
-		retry: 1
+		retry: 2
 	});
-	const data = $derived($githubStatsQuery.data as GitHubStats | undefined);
 
-	const topRepos = $derived(
-		data?.pinnedRepositories?.sort((a, b) => b.stars - a.stars).slice(0, 4) || []
-	);
+	const data = $derived(($asimovPlatformPinnedReposQuery.data as GithubRepository[]) ?? []);
 
 	onMount(() => {
 		const observer = new IntersectionObserver(
@@ -75,16 +72,16 @@
 			</p>
 		</div>
 
-		{#if $githubStatsQuery.isLoading}
+		{#if $asimovPlatformPinnedReposQuery.isLoading}
 			<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 				<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 				{#each { length: 6 } as _, i ('star-rated-repo-' + i)}
 					<ModuleCardSkeleton />
 				{/each}
 			</div>
-		{:else if topRepos.length > 0}
+		{:else if data.length > 0}
 			<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{#each topRepos as repo, i (repo.name)}
+				{#each data as repo, i (repo.name)}
 					<ModuleCard module={repo} index={i} />
 				{/each}
 			</div>
