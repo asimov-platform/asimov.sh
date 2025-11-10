@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Button from '../common/Button.svelte';
-	import { protocolUrl } from '../../lib/config';
 
 	let heroSection: HTMLElement;
 	let isInView = false;
@@ -77,15 +76,6 @@
 				style="animation-delay: 0.6s"
 			>
 				<Button size="lg" class="glow-orange" href="#learn-code">Start Building</Button>
-				<Button
-					variant="outline"
-					size="lg"
-					href={protocolUrl}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Explore Protocol
-				</Button>
 			</div>
 		</div>
 	</div>

@@ -6,7 +6,6 @@
 	import Lightning from 'phosphor-svelte/lib/Lightning';
 	import Cpu from 'phosphor-svelte/lib/Cpu';
 	import Heart from 'phosphor-svelte/lib/Heart';
-	import { protocolUrl } from '../../lib/config';
 
 	let whySection: HTMLElement;
 
@@ -114,14 +113,6 @@
 					class="rounded-lg bg-orange-600 px-8 py-3 font-medium text-white transition-colors hover:bg-orange-700"
 				>
 					Start building with trusted data
-				</a>
-				<a
-					href={protocolUrl}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="rounded-lg border border-gray-600 px-8 py-3 font-medium text-gray-300 transition-colors hover:bg-gray-800"
-				>
-					Explore the protocol
 				</a>
 			</div>
 		</div>
