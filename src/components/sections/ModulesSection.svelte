@@ -19,7 +19,7 @@
 		retry: 2
 	});
 
-	$: modules = $modulesQuery.data ?? [];
+	$: modules = $modulesQuery.data !== undefined ? $modulesQuery.data : error ? [] : undefined;
 	$: loading = $modulesQuery.isLoading;
 	$: error = $modulesQuery.error;
 

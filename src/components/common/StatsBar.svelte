@@ -40,9 +40,9 @@
 		retry: 2
 	});
 
-	const starsCount = $derived($asimovPlatformGithubStarsQuery.data ?? 0);
-	const followersCount = $derived($asimovPlatformFollowersCountQuery.data ?? 0);
-	const totalDownloads = $derived($downloadsQuery.data ?? 0);
+	const starsCount = $derived($asimovPlatformGithubStarsQuery.data);
+	const followersCount = $derived($asimovPlatformFollowersCountQuery.data);
+	const totalDownloads = $derived($downloadsQuery.data);
 
 	const containerClass =
 		variant === 'desktop' ? 'flex items-center gap-3' : 'flex items-center gap-2';
@@ -51,7 +51,7 @@
 </script>
 
 <div class={containerClass}>
-	{#if starsCount}
+	{#if starsCount !== undefined}
 		<MetricBadge
 			value={formatStars(starsCount)}
 			href="#top-repositories"
@@ -66,7 +66,7 @@
 		<MetricsSkeleton wrapperClassName={loadingClass} />
 	{/if}
 
-	{#if followersCount}
+	{#if followersCount !== undefined}
 		<MetricBadge
 			value={formatStars(followersCount)}
 			href={githubUrl}
@@ -82,7 +82,7 @@
 		<MetricsSkeleton wrapperClassName={loadingClass} />
 	{/if}
 
-	{#if $downloadsQuery.data}
+	{#if totalDownloads !== undefined}
 		<MetricBadge
 			value={formatDownloads(totalDownloads)}
 			href="#daily-downloads"
