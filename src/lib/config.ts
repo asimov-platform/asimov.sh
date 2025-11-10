@@ -31,7 +31,7 @@ export const footerLinks: {
 	{
 		title: 'Resources',
 		links: [
-			{ text: 'ASIMOV Protocol', href: protocolUrl, target: '_blank' },
+			// { text: 'ASIMOV Protocol', href: protocolUrl, target: '_blank' },
 			{ text: 'GitHub', href: githubUrl, target: '_blank' }
 		]
 	}
